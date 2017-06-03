@@ -1,0 +1,53 @@
+#' @docType package
+#'
+#' @name icesTAF-package
+#'
+#' @aliases icesTAF
+#'
+#' @title Functions to Support the ICES Transparent Assessment Framework
+#'
+#' @description
+#' Functions to support the ICES Transparent Assessment Framework, to organize
+#' data, methods, and results used in ICES assessments.
+#'
+#' @details
+#' \emph{Read and write files:}
+#' \tabular{ll}{
+#'   \code{\link{read.dls}}  \tab read \code{DLS3.2} results from file\cr
+#'   \code{\link{read.taf}}  \tab read TAF table from file\cr
+#'   \code{\link{write.dls}} \tab write \code{DLS3.2} results to file\cr
+#'   \code{\link{write.taf}} \tab write TAF table to file
+#' }
+#' \emph{Other file management:}
+#' \tabular{ll}{
+#'   \code{\link{clean}}      \tab clean TAF directories\cr
+#'   \code{\link{cp}}         \tab copy files\cr
+#'   \code{\link{dos2unix}}   \tab convert line endings\cr
+#'   \code{\link{make}}       \tab run TAF script if needed\cr
+#'   \code{\link{mkdir}}      \tab create directory\cr
+#'   \code{\link{sourceAtoZ}} \tab run all TAF scripts\cr
+#'   \code{\link{sourceTAF}}  \tab run TAF script\cr
+#'   \code{\link{unix2dos}}   \tab convert line endings
+#' }
+#' \emph{Table converters:}
+#' \tabular{ll}{
+#'   \code{\link{flr2taf}}  \tab FLR to TAF\cr
+#'   \code{\link{long2taf}} \tab long format to TAF\cr
+#'   \code{\link{taf2long}} \tab TAF to long format\cr
+#'   \code{\link{taf2xtab}} \tab TAF to crosstab\cr
+#'   \code{\link{tt}}       \tab transpose TAF table\cr
+#'   \code{\link{xtab2taf}} \tab crosstab to TAF
+#' }
+#' \emph{Example tables:}
+#' \tabular{ll}{
+#'   \code{\link{catage.long}} \tab long format\cr
+#'   \code{\link{catage.taf}}  \tab TAF format\cr
+#'   \code{\link{catage.xtab}} \tab crosstab format
+#' }
+#'
+#' @author Arni Magnusson and Colin Millar.
+#'
+#' @references
+#' ICES Transparent Assessment Framework: \url{http://taf.ices.dk}.
+
+NA
