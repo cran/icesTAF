@@ -24,14 +24,14 @@ Run a TAF script if underlying data files have changed, otherwise do nothing.
 }
 \examples{
 \dontrun{
-make("model.R", "input/input.txt", "model/results.txt")
+make("model.R", "input/input.dat", "model/results.dat")
 }
 
 }
 \seealso{
 \code{\link{sourceTAF}} runs a TAF script.
 
-\code{\link{sourceAtoZ}} runs all TAF scripts in a directory.
+\code{\link{sourceAll}} runs all TAF scripts in a directory.
 
 \code{\link{icesTAF-package}} gives an overview of the package.
 }

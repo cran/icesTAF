@@ -1,4 +1,34 @@
 --------------------------------------------------------------------------------
+icesTAF 1.4-0 (2017-10-30)
+--------------------------------------------------------------------------------
+o Added function upload() to upload file to TAF database. Added function
+  download() to download file in binary mode.
+
+o Added function msg() to show a message, as well as the current time.
+
+o Added function tafpng() to open a graphics device. Added function lim() to
+  compute axis limits.
+
+o Added function div() to divide column values with a common number. Added
+  function rnd() to round column values.
+
+o Added function taf.skeleton() to create an empty template for a TAF analysis.
+
+o Added function deps() to list dependencies.
+
+o Renamed function sourceAtoZ() to sourceAll().
+
+o Added argument 'move' to cp(). Added argument 'clean' to sourceTAF(). Added
+  argument 'column' to tt().
+
+o Added color objects: taf.green, taf.orange, taf.blue, taf.dark, and taf.light.
+
+o Added example data frame summary.taf to demonstrate div() and rnd().
+
+
+
+
+--------------------------------------------------------------------------------
 icesTAF 1.3-2 (2017-06-03)
 --------------------------------------------------------------------------------
 o Improved package description.

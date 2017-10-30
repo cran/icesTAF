@@ -1,4 +1,4 @@
-#' Make Directory
+#' Create Directory
 #'
 #' Create directory, including parent directories if necessary, without
 #' generating a warning if the directory already exists.
@@ -16,6 +16,8 @@
 #' \code{\link{dir.create}} is the base function to create an empty directory.
 #'
 #' \code{\link{unlink}} with \code{recursive = TRUE} removes directories.
+#'
+#' \code{\link{clean}} cleans TAF directories.
 #'
 #' \code{\link{icesTAF-package}} gives an overview of the package.
 #'

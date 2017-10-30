@@ -2,7 +2,7 @@
 % Please edit documentation in R/mkdir.R
 \name{mkdir}
 \alias{mkdir}
-\title{Make Directory}
+\title{Create Directory}
 \usage{
 mkdir(path)
 }
@@ -34,6 +34,8 @@ unlink("outer/inner", recursive=TRUE)
 \code{\link{dir.create}} is the base function to create an empty directory.
 
 \code{\link{unlink}} with \code{recursive = TRUE} removes directories.
+
+\code{\link{clean}} cleans TAF directories.
 
 \code{\link{icesTAF-package}} gives an overview of the package.
 }
