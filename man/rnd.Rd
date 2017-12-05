@@ -4,14 +4,18 @@
 \alias{rnd}
 \title{Round Columns}
 \usage{
-rnd(x, cols, digits = 0)
+rnd(x, cols, digits = 0, grep = FALSE, ...)
 }
 \arguments{
 \item{x}{a data frame.}
 
-\item{cols}{column names.}
+\item{cols}{column names, or column indices.}
 
 \item{digits}{number of decimal places.}
+
+\item{grep}{whether \code{cols} is a regular expression.}
+
+\item{\dots}{passed to \code{grep()}.}
 }
 \value{
 A data frame similar to \code{x}, after rounding columns \code{cols} to the
@@ -21,17 +25,36 @@ number of \code{digits}.
 Round column values in a data frame.
 }
 \note{
-Provides notation that is reliable and convenient for modifying a large
-number of columns, not repeating column names twice.
+Provides notation that is convenient for modifying many columns at once.
 }
 \examples{
-summary <- rnd(summary.taf, c("Fbar", "Fbar_lo", "Fbar_hi"), 2)
+# These are equivalent:
+
+x1 <- rnd(summary.taf, c("Rec","Rec_lo","Rec_hi",
+                         "TSB","TSB_lo","TSB_hi",
+                         "SSB","SSB_lo","SSB_hi",
+                         "Removals","Removals_lo","Removals_hi"))
+x1 <- rnd(x1, c("Fbar","Fbar_lo","Fbar_hi"), 3)
+
+x2 <- rnd(summary.taf, "Rec|TSB|SSB|Removals", grep=TRUE)
+x2 <- rnd(x2, "Fbar", 3, grep=TRUE)
+
+x3 <- rnd(summary.taf, "Fbar", grep=TRUE, invert=TRUE)
+x3 <- rnd(x3, "Fbar", 3, grep=TRUE)
+
+# Less reliable in scripts if columns have been added/deleted/reordered:
+
+x4 <- rnd(summary.taf, 2:13)
+x4 <- rnd(x4, 14:16, 3)
 
 }
 \seealso{
 \code{\link{round}} is the underlying function used to round numbers.
 
-\code{\link{div}} is a similar function to divide columns with a common
+\code{\link{grep}} is the underlying function used to match column names if
+\code{grep} is \code{TRUE}.
+
+\code{\link{div}} is a similar function that divides columns with a common
 number.
 
 \code{\link{icesTAF-package}} gives an overview of the package.
