@@ -2,25 +2,42 @@
 % Please edit documentation in R/make.R
 \name{make}
 \alias{make}
-\title{Run TAF Script If Needed}
+\title{Run R Script If Needed}
 \usage{
-make(recipe, prereq, target, debug = FALSE)
+make(recipe, prereq, target, include = TRUE, engine = source,
+  debug = FALSE, ...)
 }
 \arguments{
-\item{recipe}{TAF script filename.}
+\item{recipe}{script filename.}
 
-\item{prereq}{one or more underlying data files, required by the TAF script.}
+\item{prereq}{one or more underlying files, required by the script. For
+example, data files and/or scripts.}
 
-\item{target}{one output file, produced by the TAF script.}
+\item{target}{one or more output files, produced by the script. Directory
+names can also be used.}
+
+\item{include}{whether to automatically include the script itself as a
+prerequisite file.}
+
+\item{engine}{function to source the script.}
 
 \item{debug}{whether to show a diagnostic table of files and time last
 modified.}
+
+\item{\dots}{passed to \code{engine}.}
 }
 \value{
-Invisible \code{TRUE} or \code{FALSE}, indicating whether the script was run.
+\code{TRUE} or \code{FALSE}, indicating whether the script was run.
 }
 \description{
-Run a TAF script if underlying data files have changed, otherwise do nothing.
+Run an R script if underlying files have changed, otherwise do nothing.
+}
+\note{
+This function provides functionality similar to makefile rules, to determine
+whether a script should be (re)run or not.
+
+If any \code{target} is missing or older than any \code{prereq}, then the
+script is run.
 }
 \examples{
 \dontrun{
@@ -28,10 +45,19 @@ make("model.R", "input/input.dat", "model/results.dat")
 }
 
 }
+\references{
+Stallman, R. M. \emph{et al.} An introduction to makefiles. Chapter 2 in the
+\emph{\href{https://www.gnu.org/software/make/manual/make.pdf}{GNU Make
+manual}}.
+}
 \seealso{
-\code{\link{sourceTAF}} runs a TAF script.
+\code{\link{source}} runs any R script, \code{\link{sourceTAF}} is more
+convenient for running a TAF script, and \code{\link{sourceAll}} runs all TAF
+scripts.
 
-\code{\link{sourceAll}} runs all TAF scripts in a directory.
+\code{\link{make}}, \code{\link{makeTAF}}, and \code{\link{makeAll}} are
+similar to the \code{source} functions, except they avoid repeating tasks
+that have already been run.
 
 \code{\link{icesTAF-package}} gives an overview of the package.
 }
