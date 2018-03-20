@@ -3,15 +3,16 @@
 #' Run a TAF script and return to the original directory.
 #'
 #' @param script script filename.
-#' @param local whether to run script in a local temporary environment, so that
-#'        objects are not created in the global workspace.
+#' @param rm whether to remove all objects from the global environment before
+#'        and after the script is run.
 #' @param clean whether to remove the corresponding TAF directory before running
 #'        the script.
 #' @param quiet whether to suppress messages reporting progress.
 #'
 #' @details
-#' By default, TAF scripts are run with \code{local = TRUE} to make sure that
-#' only files, not objects, are carried over between scripts. Likewise, the
+#' The default value of \code{rm = FALSE} is to protect users from accidental
+#' loss of work, but the TAF server always runs with \code{rm = TRUE} to make
+#' sure that only files, not objects, are carried over between scripts. The
 #' default \code{clean = TRUE} makes sure that the script starts by creating a
 #' new empty directory.
 #'
@@ -46,20 +47,24 @@
 #'
 #' @export
 
-sourceTAF <- function(script, local=TRUE, clean=TRUE, quiet=FALSE)
+sourceTAF <- function(script, rm=FALSE, clean=TRUE, quiet=FALSE)
 {
+  if(rm)
+    rm(list=ls(.GlobalEnv), pos=.GlobalEnv)
   if(clean && dir.exists(file_path_sans_ext(script)))
     unlink(file_path_sans_ext(script), recursive=TRUE)
   if(!quiet)
-    msg("Running ", script, " ...")
+    msg(script, " running...")
 
   owd <- setwd(dirname(script))
   on.exit(setwd(owd))
-  envir <- if(local) new.env() else .GlobalEnv
-  result <- try(source(basename(script), local=envir))
-
+  result <- try(source(basename(script)))
   ok <- class(result) != "try-error"
   if(!quiet)
-    message(if(ok) "Done" else "Failed")
+    msg("  ", script, if(ok) " done" else " failed")
+
+  if(rm)
+    rm(list=ls(.GlobalEnv), pos=.GlobalEnv)
+
   invisible(ok)
 }
