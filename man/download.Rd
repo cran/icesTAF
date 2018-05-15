@@ -37,14 +37,14 @@ writing to the file system.
 }
 \examples{
 \dontrun{
-download("http://taf.ices.local/taf/fs/2015_had-iceg/model/catageysa.exe")
+url <- paste0("https://github.com/ices-taf/2015_had-iceg/raw/master/",
+              "begin/model/catageysa.exe")
+download(url)
 }
 
 }
 \seealso{
 \code{\link{read.taf}} reads a TAF table into a data frame.
-
-\code{\link{upload}} uploads a file to the TAF database.
 
 \code{\link{icesTAF-package}} gives an overview of the package.
 }

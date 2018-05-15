@@ -1,4 +1,24 @@
 --------------------------------------------------------------------------------
+icesTAF 1.6-0 (2018-05-15)
+--------------------------------------------------------------------------------
+o Removed function upload(). Initial data and model files are now in the 'begin'
+  folder of each assessment.
+
+o Added function plus() to rename plus group column.
+
+o Added argument 'dir' to write.taf().
+
+o Changed read.taf() and write.taf() so they can read/write many tables in one
+  call.
+
+o Changed write.taf() so the name of the data frame is the default filename.
+
+o Changed cp() so it preserves the timestamp when copying a file.
+
+
+
+
+--------------------------------------------------------------------------------
 icesTAF 1.5-3 (2018-04-27)
 --------------------------------------------------------------------------------
 o Changed default file encoding in read.taf() to UTF-8.

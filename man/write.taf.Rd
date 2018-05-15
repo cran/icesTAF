@@ -4,13 +4,15 @@
 \alias{write.taf}
 \title{Write TAF Table to File}
 \usage{
-write.taf(x, file = "", quote = FALSE, row.names = FALSE,
+write.taf(x, file = NULL, dir = NULL, quote = FALSE, row.names = FALSE,
   fileEncoding = "UTF-8", ...)
 }
 \arguments{
 \item{x}{a data frame in TAF format.}
 
 \item{file}{a filename.}
+
+\item{dir}{an optional directory name.}
 
 \item{quote}{whether to quote strings.}
 
@@ -23,11 +25,21 @@ write.taf(x, file = "", quote = FALSE, row.names = FALSE,
 \description{
 Write a TAF table to a file.
 }
+\details{
+Alternatively, \code{x} can be a string vector of names to write many tables
+in one call, using \code{file = NULL} to automatically name the resulting
+files.
+
+The default value \code{file = NULL} uses the name of \code{x} as a filename.
+The special value \code{file = ""} prints the data frame in the console,
+similar to \code{write.csv}.
+}
 \examples{
 \dontrun{
 write.taf(catage.taf, "catage.csv")
 catage <- read.taf("catage.csv")
 
+write.taf(catage)
 file.remove("catage.csv")
 }
 

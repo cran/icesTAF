@@ -17,7 +17,8 @@ column name \samp{3} to \samp{X3}.}
 \item{\dots}{passed to \code{read.csv}.}
 }
 \value{
-A data frame in TAF format.
+A data frame in TAF format, or a list of data frames if \code{file} is a
+vector of filenames.
 }
 \description{
 Read a TAF table from a file into a data frame.
@@ -27,6 +28,7 @@ Read a TAF table from a file into a data frame.
 write.taf(catage.taf, "catage.csv")
 catage <- read.taf("catage.csv")
 
+write.taf(catage)
 file.remove("catage.csv")
 }
 
