@@ -1,15 +1,16 @@
 #' Run All TAF Scripts as Needed
 #'
-#' Run TAF scripts that have changed, or if previous steps were rerun.
+#' Run core TAF scripts that have changed, or if previous steps were rerun.
 #'
-#' @param path directory containing TAF scripts.
 #' @param \dots passed to \code{\link{makeTAF}}.
 #'
 #' @return Logical vector indicating which scripts were run.
 #'
 #' @note
-#' TAF scripts that will be run as needed: \code{data.R}, \code{input.R},
-#' \code{model.R}, \code{output.R}, and \code{report.R}.
+#' TAF scripts that will be run as needed: \verb{data.R}, \verb{input.R},
+#' \verb{model.R}, \verb{output.R}, and \verb{report.R}.
+#'
+#' If a \verb{begin.R} script exists, it is ignored.
 #'
 #' @seealso
 #' \code{\link{source}} runs any R script, \code{\link{sourceTAF}} is more
@@ -29,11 +30,8 @@
 #'
 #' @export
 
-makeAll <- function(path=".", ...)
+makeAll <- function(...)
 {
-  owd <- setwd(path)
-  on.exit(setwd(owd))
-
   scripts <- c("data.R", "input.R", "model.R", "output.R", "report.R")
   scripts <- scripts[file.exists(scripts)]
 
