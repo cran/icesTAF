@@ -1,4 +1,27 @@
 --------------------------------------------------------------------------------
+icesTAF 2.0-0 (2018-12-07)
+--------------------------------------------------------------------------------
+o Added function taf.library() to work with packages in a local TAF library.
+
+o Added function rmdir() to remove an empty directory.
+
+o Added functions os.unix() and os.windows() to determine OS family.
+
+o Added function taf.unzip() to extract files from zip archives.
+
+o Moved functions read.dls() and write.dls() to the 'icesAdvice' package.
+
+o Changed clean(), makeAll(), makeTAF(), sourceAll(), and taf.skeleton() to
+  align with new data-model workflow.
+
+o Renamed function tafpng() to taf.png().
+
+o Added argument 'destfile' to download().
+
+
+
+
+--------------------------------------------------------------------------------
 icesTAF 1.6-2 (2018-08-03)
 --------------------------------------------------------------------------------
 o Added argument 'underscore' to write.taf().

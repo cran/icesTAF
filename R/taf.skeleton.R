@@ -35,19 +35,17 @@ taf.skeleton <- function(name = "analysis", path = ".", force = FALSE)
   }
 
   # create analysis directory
-  mkdir(paste0(path, "/", name))
-  owd <- setwd(paste0(path, "/", name))
+  mkdir(file.path(path, name))
+  owd <- setwd(file.path(path, name))
   on.exit(setwd(owd))
 
   # create initial directories
-  mkdir("begin/data")
-  mkdir("begin/model")
+  mkdir("bootstrap/initial/data")
 
   # define headers
   template <- "## %s\n\n## Before:\n## After:\n\n"
   headers <- list(
     data = "Preprocess data, write TAF data tables",
-    input = "Convert data to model format, write model input files",
     model = "Run analysis, write model results",
     output = "Extract results of interest, write TAF output tables",
     report = "Prepare plots/tables for report")

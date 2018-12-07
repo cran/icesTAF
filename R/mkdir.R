@@ -8,21 +8,21 @@
 #' @return \code{TRUE} for success, \code{FALSE} for failure, invisibly.
 #'
 #' @seealso
-#' \code{\link{dir.create}} is the base function to create an empty directory.
+#' \code{\link{dir.create}} is the base function to create a new directory.
 #'
-#' \code{\link{unlink}} with \code{recursive = TRUE} removes directories.
+#' \code{\link{rmdir}} removes an empty directory.
 #'
-#' \code{\link{clean}} cleans TAF directories.
+#' \code{\link{clean}} can be used to remove non-empty directories.
 #'
 #' \code{\link{icesTAF-package}} gives an overview of the package.
 #'
 #' @examples
 #' \dontrun{
 #' mkdir("emptydir")
-#' unlink("emptydir", recursive=TRUE)
+#' rmdir("emptydir")
 #'
 #' mkdir("outer/inner")
-#' unlink("outer/inner", recursive=TRUE)
+#' rmdir("outer", recursive=TRUE)
 #' }
 #'
 #' @export

@@ -5,7 +5,7 @@
 \title{Download File in Binary Mode}
 \usage{
 download(url, dir = ".", mode = "wb", chmod = file_ext(url) == "",
-  quiet = TRUE, ...)
+  destfile = file.path(dir, basename(url)), quiet = TRUE, ...)
 }
 \arguments{
 \item{url}{URL of file to download.}
@@ -16,6 +16,9 @@ download(url, dir = ".", mode = "wb", chmod = file_ext(url) == "",
 
 \item{chmod}{whether to set execute permission (default is \code{TRUE} if
 file has no filename extension).}
+
+\item{destfile}{destination path and filename (optional, overrides
+\code{dir}).}
 
 \item{quiet}{whether to suppress messages.}
 
@@ -38,7 +41,7 @@ writing to the file system.
 \examples{
 \dontrun{
 url <- paste0("https://github.com/ices-taf/2015_had-iceg/raw/master/",
-              "begin/model/catageysa.exe")
+              "bootstrap/initial/software/catageysa.exe")
 download(url)
 }
 

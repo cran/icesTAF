@@ -16,9 +16,7 @@ data, methods, and results used in ICES assessments.
 }
 \emph{Read and write files:}
 \tabular{ll}{
-  \code{\link{read.dls}}  \tab read \code{DLS3.2} results from file\cr
   \code{\link{read.taf}}  \tab read TAF table from file\cr
-  \code{\link{write.dls}} \tab write \code{DLS3.2} results to file\cr
   \code{\link{write.taf}} \tab write TAF table to file
 }
 \emph{Run scripts:}
@@ -36,7 +34,10 @@ data, methods, and results used in ICES assessments.
   \code{\link{cp}}           \tab copy files\cr
   \code{\link{dos2unix}}     \tab convert line endings\cr
   \code{\link{mkdir}}        \tab create directory\cr
+  \code{\link{rmdir}}        \tab remove directory\cr
+  \code{\link{taf.library}}  \tab enable TAF library\cr
   \code{\link{taf.skeleton}} \tab create empty TAF template\cr
+  \code{\link{taf.unzip}}    \tab unzip file\cr
   \code{\link{unix2dos}}     \tab convert line endings
 }
 \emph{Table tools:}
@@ -66,7 +67,9 @@ data, methods, and results used in ICES assessments.
 }
 \emph{Administrative tools:}
 \tabular{ll}{
-  \code{\link{deps}} \tab list dependencies
+  \code{\link{deps}}       \tab list dependencies\cr
+  \code{\link{os.unix}}    \tab OS family\cr
+  \code{\link{os.windows}} \tab OS family
 }
 }
 \references{
