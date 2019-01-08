@@ -1,4 +1,26 @@
 --------------------------------------------------------------------------------
+icesTAF 2.1-0 (2019-01-08)
+--------------------------------------------------------------------------------
+o Added function taf.bootstrap() and process.bib to set up data files and
+  software.
+
+o Added functions draft.data() and draft.software() to create initial draft
+  versions of metadata files.
+
+o Added functions os(), os.linux() and os.macos() to detect more operating
+  systems than before. Removed os.unix().
+
+o Updated colors (taf.green, taf.orange, taf.blue, taf.dark, taf.light) to make
+  them equally intense and easy to distinguish.
+
+o This release introduces package dependencies to parse BibTeX files (bibtex)
+  and install packages from GitHub (remotes), with further underlying package
+  dependencies.
+
+
+
+
+--------------------------------------------------------------------------------
 icesTAF 2.0-0 (2018-12-07)
 --------------------------------------------------------------------------------
 o Added function taf.library() to work with packages in a local TAF library.

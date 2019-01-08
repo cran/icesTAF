@@ -28,6 +28,13 @@ data, methods, and results used in ICES assessments.
   \code{\link{sourceAll}} \tab run all TAF scripts\cr
   \code{\link{sourceTAF}} \tab run TAF script
 }
+\emph{Work with metadata:}
+\tabular{ll}{
+  \code{\link{draft.data}}     \tab draft DATA.bib file\cr
+  \code{\link{draft.software}} \tab draft SOFTWARE.bib file\cr
+  \code{\link{process.bib}}    \tab read and process metadata\cr
+  \code{\link{taf.bootstrap}}  \tab set up data files and software
+}
 \emph{Other file management:}
 \tabular{ll}{
   \code{\link{clean}}        \tab clean TAF directories\cr
@@ -68,8 +75,10 @@ data, methods, and results used in ICES assessments.
 \emph{Administrative tools:}
 \tabular{ll}{
   \code{\link{deps}}       \tab list dependencies\cr
-  \code{\link{os.unix}}    \tab OS family\cr
-  \code{\link{os.windows}} \tab OS family
+  \code{\link{os}}         \tab operating system\cr
+  \code{\link{os.linux}}   \tab operating system\cr
+  \code{\link{os.macos}}   \tab operating system\cr
+  \code{\link{os.windows}} \tab operating system
 }
 }
 \references{
