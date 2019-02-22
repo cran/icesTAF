@@ -6,7 +6,7 @@
 #' @param base whether to include base packages in the output.
 #' @param installed whether to include installed packages in the output.
 #' @param available whether to include available packages in the output.
-#' @param list whether to return packages in list format.
+#' @param list whether to return packages in list format, split by script.
 #'
 #' @return
 #' Names of packages as a vector, or in list format if \code{list=TRUE}. If no
@@ -28,6 +28,7 @@
 #' \code{\link{icesTAF-package}} gives an overview of the package.
 #'
 #' @examples
+#' \dontrun{
 #' dir <- system.file(package="MASS", "scripts")
 #' script <- system.file(package="MASS", "scripts/ch08.R")
 #'
@@ -38,7 +39,6 @@
 #' deps(dir)
 #' deps(dir, list=TRUE)
 #'
-#' \dontrun{
 #' deps(dir, available=FALSE)  # dependencies that might be unavailable
 #' }
 #'

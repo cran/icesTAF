@@ -21,7 +21,8 @@
 #' reliable as long-term references.
 #' \item URL starting with \verb{http} or \verb{https}, identifying a file to
 #' download.
-#' \item Filename, identifying the location of a file provided by the user.
+#' \item Relative path starting with \file{initial}, identifying the location of
+#' a file or folder provided by the user.
 #' \item Special value \code{file}, indicating that the metadata key points to a
 #' file location.
 #' }
@@ -117,6 +118,7 @@ process.bib <- function(bibfile)
   dir <- if(bibfile == "DATA.bib") "data"
          else if(bibfile == "SOFTWARE.bib") "software"
          else stop("bibfile must be 'DATA.bib' or 'SOFTWARE.bib'")
+  mkdir(dir)
 
   entries <- if(file.exists(bibfile)) read.bib(bibfile) else list()
 

@@ -16,7 +16,7 @@ deps(path = ".", base = FALSE, installed = TRUE, available = TRUE,
 
 \item{available}{whether to include available packages in the output.}
 
-\item{list}{whether to return packages in list format.}
+\item{list}{whether to return packages in list format, split by script.}
 }
 \value{
 Names of packages as a vector, or in list format if \code{list=TRUE}. If no
@@ -36,6 +36,7 @@ The search algorithm may return false-positive dependencies if these patterns
 occur inside if-clauses, strings, comments, etc.
 }
 \examples{
+\dontrun{
 dir <- system.file(package="MASS", "scripts")
 script <- system.file(package="MASS", "scripts/ch08.R")
 
@@ -46,7 +47,6 @@ deps(script, installed=FALSE)  # not (yet) installed
 deps(dir)
 deps(dir, list=TRUE)
 
-\dontrun{
 deps(dir, available=FALSE)  # dependencies that might be unavailable
 }
 
