@@ -4,20 +4,23 @@
 \alias{draft.data}
 \title{Draft DATA.bib}
 \usage{
-draft.data(originator = NULL, year = NULL, title = NULL,
-  period = NULL, source = "file", file = "",
+draft.data(originator = NULL, year = format(Sys.time(), "\%Y"),
+  title = NULL, period = NULL, source = "file", file = "",
   data.dir = "bootstrap/initial/data", data.files = dir(data.dir,
-  recursive = TRUE))
+  recursive = TRUE), append = FALSE)
 }
 \arguments{
 \item{originator}{who prepared the data, e.g. a working group acronym.}
 
-\item{year}{year of the analysis when the data were used.}
+\item{year}{year of the analysis when the data were used. The default is the
+current year.}
 
-\item{title}{description of the data, including stock code or the like.}
+\item{title}{description of the data, including survey names or the like.}
 
 \item{period}{first and last year that the data cover, separated by a simple
-dash.}
+dash, or a single number if the data cover only one year. If the data
+do not cover specific years, this metadata field can be suppressed
+using \code{period = FALSE}.}
 
 \item{source}{where the data originate from. This can be a URL, filename, or
 the special value \code{"file"}.}
@@ -28,6 +31,8 @@ the special value \code{"file"}.}
 
 \item{data.files}{data filenames. The default is all files inside
 \code{data.dir}.}
+
+\item{append}{whether to append metadata entries to an existing file.}
 }
 \value{
 Object of class \verb{Bibtex}.
@@ -36,10 +41,9 @@ Object of class \verb{Bibtex}.
 Create an initial draft version of a \file{DATA.bib} metadata file.
 }
 \details{
-Typical usage is to specify \code{originator}, \code{year}, and \code{title},
-while using the default values for the other arguments. Most data files have
-the same originator and year, and the stock code can be entered as a title
-placeholder to facilitate completing the entries after creating the initial
+Typical usage is to specify \code{originator}, while using the default values
+for the other arguments. Most data files have the same originator, which can
+be specified to facilitate completing the entries after creating the initial
 draft.
 
 The special value \verb{source = "file"} is described in the
@@ -61,10 +65,10 @@ specify the \verb{period} that the data cover.
 \examples{
 \dontrun{
 # Print in console
-draft.data("WGEF", 2015, "rjm-347d")
+draft.data("WGEF", 2015)
 
 # Export to file
-draft.data("WGEF", 2015, "rjm-347d", file="bootstrap/DATA-draft.bib")
+draft.data("WGEF", 2015, file="bootstrap/DATA.bib")
 }
 
 }

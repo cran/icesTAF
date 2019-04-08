@@ -35,6 +35,7 @@ data, methods, and results used in ICES assessments.
   \code{\link{os.macos}}    \tab operating system\cr
   \code{\link{os.windows}}  \tab operating system\cr
   \code{\link{read.taf}}    \tab read TAF table from file\cr
+  \code{\link{sourceDir}}   \tab read all \code{*.R} files\cr
   \code{\link{taf.library}} \tab enable TAF library\cr
   \code{\link{taf.unzip}}   \tab unzip file\cr
   \code{\link{write.taf}}   \tab write TAF table to file
@@ -55,7 +56,8 @@ data, methods, and results used in ICES assessments.
 \tabular{ll}{
   \code{\link{lim}}        \tab compute axis limits\cr
   \code{\link{taf.colors}} \tab predefined colors\cr
-  \code{\link{taf.png}}    \tab open PNG graphics device
+  \code{\link{taf.png}}    \tab open PNG graphics device\cr
+  \code{\link{zoom}}       \tab change lattice text size
 }
 \emph{Example tables:}
 \tabular{ll}{

@@ -15,53 +15,55 @@
 #' the source field:
 #' \enumerate{
 #' \item GitHub reference of the form \verb{owner/repo[/subdir]@ref},
-#' identifying a specific version of an R package. A fixed reference such as a
-#' tag, release, or SHA-1 hash is recommended. Branch names, such as
-#' \verb{master}, are pointers that are subject to change, and are therefore not
-#' reliable as long-term references.
+#'       identifying a specific version of an R package. A fixed reference such
+#'       as a tag, release, or SHA-1 hash is recommended. Branch names, such as
+#'       \verb{master}, are pointers that are subject to change, and are
+#'       therefore not reliable as long-term references.
 #' \item URL starting with \verb{http} or \verb{https}, identifying a file to
-#' download.
+#'       download.
 #' \item Relative path starting with \file{initial}, identifying the location of
-#' a file or folder provided by the user.
+#'       a file or folder provided by the user.
 #' \item Special value \code{file}, indicating that the metadata key points to a
-#' file location.
+#'       file location.
 #' }
 #'
 #' Consider, for example, the following metadata entry from a \verb{DATA.bib}
 #' file:
-#' \preformatted{@Misc{catch.csv,
-#'   originator = {WGEF},
-#'   year       = {2015},
-#'   title      = {Annual catch of rjm-347d},
-#'   period     = {2012-2014},
+#' \preformatted{@Misc{PLE7DFleet_2016.txt,
+#'   originator = {WGNSSK},
+#'   year       = {2016},
+#'   title      = {Survey indices: UK_BTS, FR_GFS, IN_YFS},
+#'   period     = {1987-2015},
 #'   source     = {file},
 #' }}
 #' Here, a data file is described using the \verb{@Misc} entry type and the
 #' string following the entry type is called a \dfn{key}. The next fields state
-#' that this file was supplied by the Elasmobranch working group in 2015 and it
-#' contains the annual catch of North Sea spotted ray from 2012 to 2014. The
+#' that this file was prepared by the North Sea working group in 2016 and it
+#' contains survey indices from 1987 to 2015. It is not necessary to specify the
+#' stock name, since that will be automatically recorded on the TAF server. The
 #' special value \verb{source = {file}} means that the key, in this case
-#' \verb{catch.csv}, is the name of the file located inside
+#' \verb{PLE7DFleet_2016.txt}, is the name of the file located inside
 #' \verb{bootstrap/initial/data}. This \verb{file} shorthand notation is
 #' equivalent to specifying the relative path:
-#' \verb{source = {initial/data/catch.csv}}.
+#' \verb{source = {initial/data/PLE7DFleet_2016.txt}}.
 #'
 #' Another example metadata entry is from a \verb{SOFTWARE.bib} file:
-#' \preformatted{@Manual{icesAdvice,
-#'   author  = {Arni Magnusson and Colin Millar and Anne Cooper},
+#' \preformatted{@Manual{FLAssess,
+#'   author  = {Laurence T Kell},
 #'   year    = {2018},
-#'   title   = {icesAdvice: Functions Related to ICES Advice},
-#'   version = {2.0-0, released 2018-12-07},
-#'   source  = {cran/icesAdvice@2.0-0},
+#'   title   = {{FLAssess}: Generic classes and methods for stock assessment
+#'              models},
+#'   version = {2.6.2, released 2018-07-18},
+#'   source  = {flr/FLAssess@v2.6.2},
 #' }}
 #' This entry describes a specific version of an R package that is required for
 #' the TAF analysis. It is similar, but not identical, to the output from the R
-#' command \verb{citation("icesAdvice")}. The version field specifies the
-#' version number and release date, with a corresponding GitHub reference. When
-#' an R package is not an official release but a development version, the
-#' version and source may look like this,
-#' \preformatted{  version = {2.6.6, committed 2018-02-21},
-#'   source  = {flr/FLCore@d0333c1},}
+#' command \verb{citation("FLAssess")}. The version field specifies the version
+#' number and release date, with a corresponding GitHub reference. When an R
+#' package is not an official release but a development version, the version and
+#' source may look like this,
+#' \preformatted{  version = {2.6.3, committed 2018-10-09},
+#'   source  = {flr/FLAssess@f1e5acb},}
 #' or this:
 #' \preformatted{  version = {0.5.4 components branch, committed 2018-03-12},
 #'   source  = {fishfollower/SAM/stockassessment@25b3591},}
@@ -115,17 +117,24 @@
 
 process.bib <- function(bibfile)
 {
-  dir <- if(bibfile == "DATA.bib") "data"
-         else if(bibfile == "SOFTWARE.bib") "software"
-         else stop("bibfile must be 'DATA.bib' or 'SOFTWARE.bib'")
-  mkdir(dir)
+  type <- if(bibfile == "DATA.bib") "data"
+          else if(bibfile == "SOFTWARE.bib") "software"
+          else stop("bibfile must be 'DATA.bib' or 'SOFTWARE.bib'")
 
   entries <- if(file.exists(bibfile)) read.bib(bibfile) else list()
 
   for(bib in entries)
   {
+    ## Prepare dir
+    dir <- if(is.null(bib$bundle)) type else file.path(type, bib$bundle)
+    mkdir(dir)
+
+    ## If source contains multiple files then split into vector
+    bib$source <- trimws(unlist(strsplit(bib$source, "\\n")))
+    bib$source <- sub(",$", "", bib$source)  # remove trailing comma
+
     ## R package on GitHub
-    if(grepl("@", bib$source))
+    if(grepl("@", bib$source[1]))
     {
       spec <- parse_repo_spec(bib$source)
       url <- paste0("https://api.github.com/repos/",
@@ -135,17 +144,17 @@ process.bib <- function(bibfile)
       install_github(bib$source, upgrade=FALSE, force=TRUE)
     }
     ## File to download
-    else if(grepl("^http", bib$source))
+    else if(grepl("^http", bib$source[1]))
     {
-      download(bib$source, dir=dir)
+      sapply(bib$source, download, dir=dir)
     }
     ## File to copy
     else
     {
       ## Shorthand notation: source = {file} means key is a filename
-      if(bib$source == "file")
-        bib$source <- file.path("initial", dir, attr(bib,"key"))
-      cp(bib$source, dir)
+      if(bib$source[1] == "file")
+        bib$source[1] <- file.path("initial", dir, attr(bib,"key"))
+      sapply(bib$source, cp, to=dir)
     }
   }
 }

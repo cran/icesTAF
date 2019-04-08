@@ -3,22 +3,25 @@
 #' Create an initial draft version of a \file{DATA.bib} metadata file.
 #'
 #' @param originator who prepared the data, e.g. a working group acronym.
-#' @param year year of the analysis when the data were used.
-#' @param title description of the data, including stock code or the like.
+#' @param year year of the analysis when the data were used. The default is the
+#'        current year.
+#' @param title description of the data, including survey names or the like.
 #' @param period first and last year that the data cover, separated by a simple
-#'        dash.
+#'        dash, or a single number if the data cover only one year. If the data
+#'        do not cover specific years, this metadata field can be suppressed
+#'        using \code{period = FALSE}.
 #' @param source where the data originate from. This can be a URL, filename, or
 #'        the special value \code{"file"}.
 #' @param file optional filename to save the draft metadata to a file.
 #' @param data.dir directory containing data files.
 #' @param data.files data filenames. The default is all files inside
 #'        \code{data.dir}.
+#' @param append whether to append metadata entries to an existing file.
 #'
 #' @details
-#' Typical usage is to specify \code{originator}, \code{year}, and \code{title},
-#' while using the default values for the other arguments. Most data files have
-#' the same originator and year, and the stock code can be entered as a title
-#' placeholder to facilitate completing the entries after creating the initial
+#' Typical usage is to specify \code{originator}, while using the default values
+#' for the other arguments. Most data files have the same originator, which can
+#' be specified to facilitate completing the entries after creating the initial
 #' draft.
 #'
 #' The special value \verb{source = "file"} is described in the
@@ -52,18 +55,18 @@
 #' @examples
 #' \dontrun{
 #' # Print in console
-#' draft.data("WGEF", 2015, "rjm-347d")
+#' draft.data("WGEF", 2015)
 #'
 #' # Export to file
-#' draft.data("WGEF", 2015, "rjm-347d", file="bootstrap/DATA-draft.bib")
+#' draft.data("WGEF", 2015, file="bootstrap/DATA.bib")
 #' }
 #'
 #' @export
 
-draft.data <- function(originator=NULL, year=NULL, title=NULL, period=NULL,
-                       source="file", file="",
+draft.data <- function(originator=NULL, year=format(Sys.time(),"%Y"),
+                       title=NULL, period=NULL, source="file", file="",
                        data.dir="bootstrap/initial/data",
-                       data.files=dir(data.dir,recursive=TRUE))
+                       data.files=dir(data.dir,recursive=TRUE), append=FALSE)
 {
   if(length(data.files) == 0)
     stop("'data.files' is an empty vector")
@@ -81,6 +84,8 @@ draft.data <- function(originator=NULL, year=NULL, title=NULL, period=NULL,
   ## 2  Combine and format
   out <- data.frame(line1, line2, line3, line4, line5, line6, line7, line8)
   out <- c(t(out))
+  if(isFALSE(period))
+    out <- out[substr(out,3,8) != "period"]  # remove 'period' line if FALSE
   out <- out[-length(out)]  # remove empty line at end
   class(out) <- "Bibtex"
 
@@ -92,7 +97,9 @@ draft.data <- function(originator=NULL, year=NULL, title=NULL, period=NULL,
   }
   else
   {
-    write(out, file=file)
+    if(append)
+      write("", file=file, append=TRUE)  # empty line separator
+    write(out, file=file, append=append)
     invisible(out)
   }
 }
