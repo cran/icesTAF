@@ -2,36 +2,51 @@
 % Please edit documentation in R/zoom.R
 \name{zoom}
 \alias{zoom}
+\alias{zoom.trellis}
 \title{Zoom}
 \usage{
-zoom(obj, cex = 1.8, cex.main = 1.3 * cex, cex.lab = 1.1 * cex,
-  cex.axis = cex, cex.strip = cex, cex.symbol = cex, cex.sub = 0.7
-  * cex, cex.legend = 0.7 * cex)
+zoom(x, ...)
+
+\method{zoom}{trellis}(x, size = 2.7, main = 1.2 * size, lab = size,
+  axis = size, strip = size, sub = 0.9 * size, legend = 0.9 * size,
+  splom = 0.9 * size, ...)
 }
 \arguments{
-\item{obj}{a lattice plot of class \code{"trellis"}.}
+\item{x}{a lattice plot of class \code{"trellis"}.}
 
-\item{cex}{text size multiplier.}
+\item{\dots}{further arguments, currently ignored.}
 
-\item{cex.main}{size of main title (default is \code{1.3 * cex}).}
+\item{size}{text size multiplier.}
 
-\item{cex.lab}{size of axis labels (default is \code{1.1 * cex}).}
+\item{main}{size of main title (default is \code{1.2 * size}).}
 
-\item{cex.axis}{size of tick labels (default is \code{cex}).}
+\item{lab}{size of axis labels (default is \code{size}).}
 
-\item{cex.strip}{size of strip labels (default is \code{cex}).}
+\item{axis}{size of tick labels (default is \code{size}).}
 
-\item{cex.symbol}{size of text inside plot (default is \code{cex}).}
+\item{strip}{size of strip labels (default is \code{size}).}
 
-\item{cex.sub}{size of subtitle (default is \code{0.7 * cex}).}
+\item{sub}{size of subtitle (default is \code{0.9 * size}).}
 
-\item{cex.legend}{size of legend labels (default is \code{0.7 * cex}).}
+\item{legend}{size of legend labels (default is \code{0.9 * size}).}
+
+\item{splom}{size of scatterplot matrix diagonal labels (default is
+\code{0.9 * size}).}
 }
 \value{
 The same lattice object, but with altered text size.
 }
 \description{
 Change text size in a lattice plot.
+}
+\details{
+Pass \code{NULL} for any argument to avoid changing the size of that text
+component.
+
+The \code{legend} component of a lattice plot can be somewhat fickle, as the
+object structure varies between plots. One solution is to pass
+\code{legend = NULL} and tweak the legend before or after calling the
+\code{zoom} function.
 }
 \note{
 The default values result in lattice plots that have similar text size as
@@ -46,7 +61,8 @@ library(lattice)
 
 xyplot(1~1)
 zoom(xyplot(1~1))
-zoom(xyplot(1~1), cex=1)
+zoom(xyplot(1~1), size=1, axis=0.8)
+zoom(xyplot(1~1), lab=NULL, axis=NULL)
 
 \dontrun{
 taf.png("myplot")

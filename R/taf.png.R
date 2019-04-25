@@ -23,15 +23,16 @@
 #'
 #' @note
 #' A simple convenience function to shorten
-#' \preformatted{png("report/myplot.png", width=800, height=600, pointsize=22)}
+#' \preformatted{png("report/plot.png", width=1600, height=1200, pointsize=32)}
 #' to
-#' \preformatted{taf.png("myplot")}
-#' To successfully export \verb{trellis} and \verb{ggplot} objects to image
-#' files in scripts, these objects should be explicitly printed (see examples
-#' below).
+#' \preformatted{taf.png("plot")}
 #'
 #' The \code{pointsize} argument only affects base plots. To change the text
 #' size of a lattice plot, the \code{zoom} function can be helpful.
+#'
+#' For consistent image width and text size, it can be useful to keep the
+#' default \code{width = 1600} but vary the \code{height} to get the desired
+#' aspect ratio for each plot.
 #'
 #' @seealso
 #' \code{\link{png}} is the underlying function used to open a PNG graphics
@@ -54,7 +55,7 @@
 #'
 #' library(ggplot2)
 #' taf.png("myggplot")
-#' print(qplot(1, 1))
+#' qplot(1, 1)
 #' dev.off()
 #' }
 #'
@@ -64,7 +65,7 @@
 #'
 #' @export
 
-taf.png <- function(filename, width=800, height=600, pointsize=22, ...)
+taf.png <- function(filename, width=1600, height=1200, pointsize=32, ...)
 {
   if(!grepl("/",filename) && !grepl("report$",getwd()) && dir.exists("report"))
     filename <- file.path("report", filename)

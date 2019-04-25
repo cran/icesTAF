@@ -1,4 +1,23 @@
 --------------------------------------------------------------------------------
+icesTAF 3.0-0 (2019-04-25)
+--------------------------------------------------------------------------------
+o Added function period() to paste period string for DATA.bib entries.
+
+o Removed argument 'name' from taf.skeleton(). The default behavior is now to
+  create initial directories and scripts in the current working directory.
+
+o Changed taf.library() so it loads a package instead of changing the library
+  path.
+
+o Changed default size of taf.png(). Changed text size in zoom() accordingly and
+  renamed arguments. The zoom() function is now generic.
+
+o Changed write.taf() so it gives a warning if column names are duplicated.
+
+
+
+
+--------------------------------------------------------------------------------
 icesTAF 2.3-0 (2019-04-08)
 --------------------------------------------------------------------------------
 o Added function sourceDir() to read all *.R files from a directory.

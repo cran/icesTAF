@@ -14,6 +14,7 @@ data, methods, and results used in ICES assessments.
 \tabular{ll}{
   \code{\link{draft.data}}     \tab draft DATA.bib file\cr
   \code{\link{draft.software}} \tab draft SOFTWARE.bib file\cr
+  \code{\link{period}}         \tab paste period string for DATA.bib\cr
   \code{\link{taf.bootstrap}}  \tab set up data files and software\cr
   \code{\link{taf.skeleton}}   \tab create empty TAF template
 }
@@ -36,7 +37,7 @@ data, methods, and results used in ICES assessments.
   \code{\link{os.windows}}  \tab operating system\cr
   \code{\link{read.taf}}    \tab read TAF table from file\cr
   \code{\link{sourceDir}}   \tab read all \code{*.R} files\cr
-  \code{\link{taf.library}} \tab enable TAF library\cr
+  \code{\link{taf.library}} \tab load package from TAF library\cr
   \code{\link{taf.unzip}}   \tab unzip file\cr
   \code{\link{write.taf}}   \tab write TAF table to file
 }

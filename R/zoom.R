@@ -2,15 +2,26 @@
 #'
 #' Change text size in a lattice plot.
 #'
-#' @param obj a lattice plot of class \code{"trellis"}.
-#' @param cex text size multiplier.
-#' @param cex.main size of main title (default is \code{1.3 * cex}).
-#' @param cex.lab size of axis labels (default is \code{1.1 * cex}).
-#' @param cex.axis size of tick labels (default is \code{cex}).
-#' @param cex.strip size of strip labels (default is \code{cex}).
-#' @param cex.symbol size of text inside plot (default is \code{cex}).
-#' @param cex.sub size of subtitle (default is \code{0.7 * cex}).
-#' @param cex.legend size of legend labels (default is \code{0.7 * cex}).
+#' @param x a lattice plot of class \code{"trellis"}.
+#' @param size text size multiplier.
+#' @param main size of main title (default is \code{1.2 * size}).
+#' @param lab size of axis labels (default is \code{size}).
+#' @param axis size of tick labels (default is \code{size}).
+#' @param strip size of strip labels (default is \code{size}).
+#' @param sub size of subtitle (default is \code{0.9 * size}).
+#' @param legend size of legend labels (default is \code{0.9 * size}).
+#' @param splom size of scatterplot matrix diagonal labels (default is
+#'        \code{0.9 * size}).
+#' @param \dots further arguments, currently ignored.
+#'
+#' @details
+#' Pass \code{NULL} for any argument to avoid changing the size of that text
+#' component.
+#'
+#' The \code{legend} component of a lattice plot can be somewhat fickle, as the
+#' object structure varies between plots. One solution is to pass
+#' \code{legend = NULL} and tweak the legend before or after calling the
+#' \code{zoom} function.
 #'
 #' @return The same lattice object, but with altered text size.
 #'
@@ -35,7 +46,8 @@
 #'
 #' xyplot(1~1)
 #' zoom(xyplot(1~1))
-#' zoom(xyplot(1~1), cex=1)
+#' zoom(xyplot(1~1), size=1, axis=0.8)
+#' zoom(xyplot(1~1), lab=NULL, axis=NULL)
 #'
 #' \dontrun{
 #' taf.png("myplot")
@@ -49,23 +61,42 @@
 #'
 #' @export
 
-zoom <- function(obj, cex=1.8, cex.main=1.3*cex, cex.lab=1.1*cex, cex.axis=cex,
-                 cex.strip=cex, cex.symbol=cex, cex.sub=0.7*cex,
-                 cex.legend=0.7*cex)
+zoom <- function(x, ...)
 {
-  if(class(obj) != "trellis")
-    stop("'obj' must be a trellis object")
+  UseMethod("zoom")
+}
+
+#' @rdname zoom
+#'
+#' @importFrom lattice xyplot
+#'
+#' @export
+#' @export zoom.trellis
+
+zoom.trellis <- function(x, size=2.7, main=1.2*size, lab=size, axis=size,
+                         strip=size, sub=0.9*size, legend=0.9*size,
+                         splom=0.9*size, ...)
+{
   suppressWarnings({
-    obj$main$cex <- cex.main
-    obj$xlab$cex <- cex.lab
-    obj$ylab$cex <- cex.lab
-    obj$x.scales$cex <- rep(cex.axis, length(obj$x.scales$cex))
-    obj$y.scales$cex <- rep(cex.axis, length(obj$y.scales$cex))
-    obj$par.strip.text$cex <- cex.strip
-    obj$par.settings$superpose.symbol$cex <- cex.symbol
-    obj$sub$cex <- cex.sub
-    if(!is.null(obj$legend))
-      obj$legend$right$args$cex <- cex.legend
+    if(!is.null(main)) x$main$cex <- main
+    if(!is.null(lab)) x$xlab$cex <- lab
+    if(!is.null(lab)) x$ylab$cex <- lab
+    if(!is.null(axis)) x$x.scales$cex <- rep(axis, length(x$x.scales$cex))
+    if(!is.null(axis)) x$y.scales$cex <- rep(axis, length(x$y.scales$cex))
+    if(!is.null(strip)) x$par.strip.text$cex <- strip
+    if(!is.null(sub)) x$sub$cex <- sub
+
+    if(!is.null(legend) && !is.null(x$legend))
+    {
+      x$legend[[side]]$args$key$cex.title <- legend
+      side <- names(x$legend)[1]
+      ## Sometimes cex, key$cex, or key$text$cex ... just set them all
+      x$legend[[side]]$args$cex <- legend
+      x$legend[[side]]$args$key$cex <- legend
+      x$legend[[side]]$args$key$text$cex <- legend
+    }
+
+    if(!is.null(splom)) x$panel.args.common$varname.cex <- splom
   })
-  print(obj)
+  print(x)
 }

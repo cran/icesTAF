@@ -44,6 +44,8 @@
 #' @seealso
 #' \code{\link{process.bib}} is a helper function used to process metadata.
 #'
+#' \code{\link{taf.library}} loads a package from \verb{bootstrap/library}.
+#'
 #' \code{\link{icesTAF-package}} gives an overview of the package.
 #'
 #' @examples
@@ -68,8 +70,7 @@ taf.bootstrap <- function(clean=TRUE, config=TRUE, data=TRUE, software=TRUE)
       return(invisible(NULL))  # nothing to do
     msg("Bootstrap procedure running...")
 
-    ## Enable TAF library
-    taf.library(quiet=TRUE)
+    ## Work inside bootstrap
     setwd("bootstrap"); on.exit(setwd(".."))
 
     ## 1  Process config
