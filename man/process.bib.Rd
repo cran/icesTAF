@@ -4,39 +4,32 @@
 \alias{process.bib}
 \title{Process Metadata}
 \usage{
-process.bib(bibfile)
+process.bib(bibfile, quiet = FALSE)
 }
 \arguments{
 \item{bibfile}{metadata file to process, either \code{"DATA.bib"} or
 \code{"SOFTWARE.bib"}.}
+
+\item{quiet}{whether to suppress messages reporting progress.}
 }
 \description{
 Read and process metadata entries in a \verb{*.bib} file.
 }
 \note{
-This is a helper function for \code{\link{taf.bootstrap}} and can also be
-used in a custom \verb{bootstrap.R} script. It should be called within the
-\file{bootstrap} directory that contains the metadata file.
+This is a helper function for \code{\link{taf.bootstrap}}. It is called
+within the \file{bootstrap} directory that contains the metadata file.
 
-Within each metadata entry, the \dfn{source} field specifies where data or
-software originate from. There are four types of values that can be used in
-the source field:
-\enumerate{
-\item GitHub reference of the form \verb{owner/repo[/subdir]@ref},
-      identifying a specific version of an R package. A fixed reference such
-      as a tag, release, or SHA-1 hash is recommended. Branch names, such as
-      \verb{master}, are pointers that are subject to change, and are
-      therefore not reliable as long-term references.
-\item URL starting with \verb{http} or \verb{https}, identifying a file to
-      download.
-\item Relative path starting with \file{initial}, identifying the location of
-      a file or folder provided by the user.
-\item Special value \code{file}, indicating that the metadata key points to a
-      file location.
-}
+A metadata file contains one or more entries that use a general BibTeX
+format:
+
+\preformatted{@Type{key,
+  field = {value},
+  ...,
+}}
 
 Consider, for example, the following metadata entry from a \verb{DATA.bib}
 file:
+
 \preformatted{@Misc{PLE7DFleet_2016.txt,
   originator = {WGNSSK},
   year       = {2016},
@@ -44,6 +37,7 @@ file:
   period     = {1987-2015},
   source     = {file},
 }}
+
 Here, a data file is described using the \verb{@Misc} entry type and the
 string following the entry type is called a \dfn{key}. The next fields state
 that this file was prepared by the North Sea working group in 2016 and it
@@ -55,6 +49,27 @@ special value \verb{source = {file}} means that the key, in this case
 equivalent to specifying the relative path:
 \verb{source = {initial/data/PLE7DFleet_2016.txt}}.
 
+The \dfn{source} field specifies where data or software originate from. There
+are four types of values that can be used in the source field:
+
+\enumerate{
+\item GitHub reference of the form \verb{owner/repo[/subdir]@ref},
+      identifying a specific version of an R package. A fixed reference such
+      as a tag, release, or SHA-1 hash is recommended. Branch names, such as
+      \verb{master}, are pointers that are subject to change, and are
+      therefore not reliable as long-term references.
+\item URL starting with \verb{http} or \verb{https}, identifying a file to
+      download.
+\item Relative path starting with \file{initial}, identifying the location of
+      a file or directory provided by the user.
+\item Special value \code{file}, indicating that the metadata key points to a
+      file location.
+\item Special value \code{script}, indicating that an R script should be run
+      to fetch data files from a web service. The metadata key is used both
+      to identify the script \file{bootstrap/\emph{key}.R} and target
+      directory \file{bootstrap/data/\emph{key}}.
+}
+
 Another example metadata entry is from a \verb{SOFTWARE.bib} file:
 \preformatted{@Manual{FLAssess,
   author  = {Laurence T Kell},
@@ -64,28 +79,34 @@ Another example metadata entry is from a \verb{SOFTWARE.bib} file:
   version = {2.6.2, released 2018-07-18},
   source  = {flr/FLAssess@v2.6.2},
 }}
+
 This entry describes a specific version of an R package that is required for
 the TAF analysis. It is similar, but not identical, to the output from the R
 command \verb{citation("FLAssess")}. The version field specifies the version
 number and release date, with a corresponding GitHub reference. When an R
 package is not an official release but a development version, the version and
 source may look like this,
+
 \preformatted{  version = {2.6.3, committed 2018-10-09},
   source  = {flr/FLAssess@f1e5acb},}
+
 or this:
+
 \preformatted{  version = {0.5.4 components branch, committed 2018-03-12},
   source  = {fishfollower/SAM/stockassessment@25b3591},}
+
 For development versions like these, the version number itself may not be
 important or accurate, but the branch name and commit date may be
 informative. The 7-character SHA reference code is a pointer to the exact
 version of the package required for the analysis.
 
 As a final metadata example, we look at a software entry that is not an R
-package. It is made available as a zip archive, containing the model source
-code (sole.tpl) and executables for different platforms (sole, sole.exe). The
-model does not have an explicit version number, so the \verb{version} field
-contains the year in which the model is used, along with the date when the
-source code was last modified:
+package. It is made available as a directory \file{sole} containing the model
+source code (\verb{sole.tpl}) and executables for different platforms
+(\verb{sole}, \verb{sole.exe}). The model does not have an explicit version
+number, so the version field contains the year in which the model is used,
+along with the date when the source code was last modified:
+
 \preformatted{@Article{sole,
   author  = {G. Aarts and J.J. Poos},
   year    = {2009},
@@ -96,8 +117,19 @@ source code was last modified:
   pages   = {763-771},
   doi     = {10.1093/icesjms/fsp033},
   version = {2016, last modified 2016-04-27},
-  source  = {initial/software/sole.zip},
+  source  = {initial/software/sole},
 }}
+
+The source field can specify multiple URLs to download, separated by
+newlines. To shorten the source entries, the \dfn{prefix} field can be useful
+to specify a prefix that is common for all source entries.
+
+The \dfn{dir} field is optional and creates a directory to place files in. If
+the dir field is used, it can only have the value \verb{dir = {TRUE}} and the
+resulting directory will be named after the metadata key. The dir field is
+mainly useful when two or more data files that need to be downloaded have the
+same name. It is implied and not necessary to set \verb{dir = TRUE} when
+\verb{source = {script}} or when the source field specifies multiple URLs.
 
 In summary, the metadata are similar to bibliographic entries, with the
 important addition of source directives that guide the bootstrap procedure to
@@ -116,8 +148,6 @@ process.bib("SOFTWARE.bib")
 \code{\link{draft.data}} and \code{\link{draft.software}} can be used to
 create initial draft versions of \file{DATA.bib} and \file{SOFTWARE.bib}
 metadata files.
-
-\code{\link{period}} pastes two years to form a \code{period} string.
 
 \code{\link{icesTAF-package}} gives an overview of the package.
 }

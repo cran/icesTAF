@@ -5,18 +5,19 @@
 \title{Bootstrap TAF Analysis}
 \usage{
 taf.bootstrap(clean = TRUE, config = TRUE, data = TRUE,
-  software = TRUE)
+  software = TRUE, quiet = FALSE)
 }
 \arguments{
-\item{clean}{whether to \code{\link{clean}} all TAF directories
-(\verb{bootstrap}, \verb{data}, \verb{model}, \verb{output},
-\verb{report}) before initiating the bootstrap procedure.}
+\item{clean}{whether to \code{\link{clean}} directories during the bootstrap
+procedure.}
 
 \item{config}{whether to process configuration files.}
 
 \item{data}{whether to process data.}
 
 \item{software}{whether to process software.}
+
+\item{quiet}{whether to suppress messages reporting progress.}
 }
 \description{
 Set up data files and software required for the analysis. Model configuration
@@ -36,10 +37,6 @@ The bootstrap procedure consists of the following steps:
 \item If a \verb{bootstrap/SOFTWARE.bib} metadata file exists, it is
       processed with \code{\link{process.bib}}.
 }
-
-To override this default bootstrap procedure, the user can create a custom
-\verb{bootstrap.R} script. If this script is found, the \code{taf.bootstrap}
-function runs that script instead of the default bootstrap procedure.
 
 After the bootstrap procedure, data and software have been documented and
 are ready to be used in the subsequent analysis. Specifically, the procedure
