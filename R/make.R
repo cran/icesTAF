@@ -12,6 +12,9 @@
 #' @param engine function to source the script.
 #' @param debug whether to show a diagnostic table of files and time last
 #'        modified.
+#' @param force whether to run the R script unconditionally.
+#' @param recon whether to return \code{TRUE} or \code{FALSE}, without actually
+#'        running the R script.
 #' @param \dots passed to \code{engine}.
 #'
 #' @return \code{TRUE} or \code{FALSE}, indicating whether the script was run.
@@ -47,7 +50,7 @@
 #' @export
 
 make <- function(recipe, prereq, target, include=TRUE, engine=source,
-                 debug=FALSE, ...)
+                 debug=FALSE, force=FALSE, recon=FALSE, ...)
 {
   if(include)
     prereq <- union(prereq, recipe)
@@ -58,10 +61,11 @@ make <- function(recipe, prereq, target, include=TRUE, engine=source,
                      Modified=file.mtime(c(target,prereq))))
   if(!all(file.exists(prereq)))
     stop("missing prerequisite file '", prereq[!file.exists(prereq)][1], "'")
-  if(!all(file.exists(target)) ||
+  if(force || !all(file.exists(target)) ||
      min(file.mtime(target)) < max(file.mtime(prereq)))
   {
-    engine(recipe, ...)
+    if(!recon)
+      engine(recipe, ...)
     out <- TRUE
   }
   else

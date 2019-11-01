@@ -1,0 +1,96 @@
+#' Download GitHub Repository
+#'
+#' Download a repository from GitHub in \file{tar.gz} format.
+#'
+#' @param repo GitHub reference of the form \verb{owner/repo[/subdir]@ref}.
+#' @param dir directory to download to.
+#' @param quiet whether to suppress messages.
+#'
+#' @return Name of downloaded \verb{tar.gz} file.
+#'
+#' @note
+#' In general, TAF scripts do not access the internet using
+#' \code{download.github} or similar functions. Instead, data and software are
+#' declared in \verb{DATA.bib} and \verb{SOFTWARE.bib} and then downloaded using
+#' \code{\link{taf.bootstrap}}. The exception is when a bootstrap data script is
+#' used to fetch data files from a web service (see \code{\link{process.bib}}).
+#'
+#' @seealso
+#' \code{\link{taf.bootstrap}} calls \code{download.github} to fetch software
+#' and data repositories, via \code{\link{process.bib}}.
+#'
+#' \code{\link{download}} downloads a file.
+#'
+#' \code{\link{untar}} extracts a \verb{tar.gz} archive.
+#'
+#' \code{\link{taf.install}} installs a package in \verb{tar.gz} format.
+#'
+#' \code{\link{icesTAF-package}} gives an overview of the package.
+#'
+#' @examples
+#' \dontrun{
+#' # Specify release tag
+#' download.github("ices-tools-prod/icesTAF@2.0-0")
+#'
+#' # Specify SHA reference code
+#' download.github("ices-tools-prod/icesTAF@d5a8947")
+#' }
+#'
+#' @importFrom remotes parse_repo_spec
+#' @importFrom utils tar untar
+#'
+#' @export
+
+download.github <- function(repo, dir=".", quiet=TRUE)
+{
+  mkdir(dir)  # bootstrap/software
+  owd <- setwd(dir); on.exit(setwd(owd))
+
+  if(!grepl("@", repo))
+    repo <- paste0(repo, "@master")
+
+  ## 1  Parse repo string
+  spec <- parse_repo_spec(repo)
+  sha <- get_remote_sha(spec$username, spec$repo, spec$ref)  # branch -> sha
+  sha <- substring(sha, 1, 7)
+  url <- paste0("https://api.github.com/repos/",
+                spec$username, "/", spec$repo, "/tarball/", spec$ref)
+  targz <- paste0(spec$repo, "_", sha, ".tar.gz")  # repo_sha.tar.gz
+  subdir <- spec$subdir
+  subtargz <- paste0(subdir, "_", sha, ".tar.gz")  # subdir_sha.tar.gz
+
+  ## 2  Download
+  if(subdir=="" && file.exists(targz) && !quiet)
+  {
+    message("Skipping download of '", targz, "'.")
+    message("  Version '", sha, "' is already in ", dir)
+  }
+  if(subdir!="" && file.exists(subtargz) && !quiet)
+  {
+    message("Skipping download of '", subtargz, "'.")
+    message("  Version '", sha, "' is already in ", dir)
+  }
+  if(subdir=="" && !file.exists(targz) || subdir!="" && !file.exists(subtargz))
+    suppressWarnings(download(url, destfile=targz, quiet=quiet))
+
+  ## 3  Extract subdir from bigger repo
+  if(subdir != "")
+  {
+    repdir <- sub("/.*", "", untar(targz,list=TRUE)[1])  # top dir inside targz
+    subdir <- spec$subdir  # sometimes the repo and subdir have the same name
+    if(repdir != subdir)   # if repdir == subdir, then we have already
+    {                      # downloaded this package and extracted the subdir
+      untar(targz, file.path(repdir, subdir)) # extract subdir
+      file.remove(targz)
+      ## Move bootstrap/software/repdir/subdir to bootstrap/software/subdir
+      file.rename(file.path(repdir, subdir), subdir)
+      rmdir(repdir)
+      ## Compress subdir as subdir_sha.tar.gz
+      tar(subtargz, subdir, compression="gzip")
+      unlink(subdir, recursive=TRUE, force=TRUE)
+      targz <- subtargz  # function returns this
+    }
+  }
+
+  invisible(targz)
+}

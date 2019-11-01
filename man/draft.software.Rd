@@ -8,8 +8,8 @@ draft.software(package, author = NULL, year = NULL, title = NULL,
   version = NULL, source = NULL, file = "", append = FALSE)
 }
 \arguments{
-\item{package}{name of one or more installed R packages, or files/folders
-inside \file{bootstrap/initial/software}.}
+\item{package}{name of one or more R packages, or files/folders inside
+\verb{bootstrap/initial/software}.}
 
 \item{author}{author(s) of the software.}
 
@@ -25,7 +25,9 @@ branch and commit date.}
 from. This can be a GitHub reference of the form
 \verb{owner/repo[/subdir]@ref}, URL, or a filename.}
 
-\item{file}{optional filename to save the draft metadata to a file.}
+\item{file}{optional filename to save the draft metadata to a file. The value
+\code{TRUE} can be used as shorthand for
+\code{"bootstrap/SOFTWARE.bib"}.}
 
 \item{append}{whether to append metadata entries to an existing file.}
 }
@@ -38,6 +40,10 @@ Create an initial draft version of a \file{SOFTWARE.bib} metadata file.
 \details{
 Typical usage is to specify \code{package}, while using the default values
 for the other arguments.
+
+If \code{package} is an R package, it can either be a package that is already
+installed (\code{"icesAdvice"}) or a GitHub reference
+(\code{"ices-tools-prod/icesAdvice@4271797"}).
 
 With the default \verb{version = NULL}, the function will automatically
 suggest an appropriate version entry for CRAN packages, but for GitHub
@@ -62,12 +68,14 @@ GitHub. To prepare metadata for software other than R packages, see the
 \code{\link{process.bib}} help page for an example.
 }
 \examples{
+\donttest{
 # Print in console
 draft.software("icesTAF")
+}
 
 \dontrun{
 # Export to file
-draft.software("icesTAF", file="bootstrap/SOFTWARE.bib")
+draft.software("icesTAF", file=TRUE)
 }
 
 }
@@ -76,7 +84,7 @@ draft.software("icesTAF", file="bootstrap/SOFTWARE.bib")
 underlying functions to access information about installed R packages.
 
 \code{\link{draft.data}} creates an initial draft version of a
-\file{DATA.bib} metadata file.
+\verb{DATA.bib} metadata file.
 
 \code{\link{process.bib}} reads and processes metadata entries.
 

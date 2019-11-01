@@ -4,24 +4,37 @@
 \alias{taf.bootstrap}
 \title{Bootstrap TAF Analysis}
 \usage{
-taf.bootstrap(clean = TRUE, config = TRUE, data = TRUE,
-  software = TRUE, quiet = FALSE)
+taf.bootstrap(software = TRUE, data = TRUE, clean = TRUE,
+  quiet = FALSE, force = FALSE)
 }
 \arguments{
+\item{software}{whether to process \verb{SOFTWARE.bib}.}
+
+\item{data}{whether to process \verb{DATA.bib}.}
+
 \item{clean}{whether to \code{\link{clean}} directories during the bootstrap
 procedure.}
 
-\item{config}{whether to process configuration files.}
-
-\item{data}{whether to process data.}
-
-\item{software}{whether to process software.}
-
 \item{quiet}{whether to suppress messages reporting progress.}
+
+\item{force}{whether to remove existing \verb{bootstrap/data},
+\verb{bootstrap/library}, and \verb{bootstrap/software} directories
+before the bootstrap procedure.}
+}
+\value{
+Logical vector indicating which metadata files were processed.
 }
 \description{
-Set up data files and software required for the analysis. Model configuration
-files are also set up, if found.
+Process metadata files \file{SOFTWARE.bib} and \file{DATA.bib} to set up
+software and data files required for the analysis.
+}
+\details{
+If \code{clean = TRUE} then:
+\enumerate{
+\item \code{clean.software()} and \code{clean.library()} are run if
+      \file{SOFTWARE.bib} is processed.
+\item \file{bootstrap/data} is removed if \file{DATA.bib} is processed.
+}
 }
 \note{
 This function should be called from the top directory of a TAF analysis. It
@@ -30,25 +43,25 @@ software according to metadata specifications.
 
 The bootstrap procedure consists of the following steps:
 \enumerate{
-\item If a directory \verb{bootstrap/initial/config} contains model
-      configuration files, they are copied to \verb{bootstrap/config}.
-\item If a \verb{bootstrap/DATA.bib} metadata file exists, it is processed
-      with \code{\link{process.bib}}.
 \item If a \verb{bootstrap/SOFTWARE.bib} metadata file exists, it is
       processed with \code{\link{process.bib}}.
+\item If a \verb{bootstrap/DATA.bib} metadata file exists, it is processed
+      with \code{\link{process.bib}}.
 }
 
-After the bootstrap procedure, data and software have been documented and
+After the bootstrap procedure, software and data have been documented and
 are ready to be used in the subsequent analysis. Specifically, the procedure
-populates up to four new directories:
+populates up to three new directories:
 \itemize{
-\item \verb{bootstrap/config} with model configuration files.
 \item \verb{bootstrap/data} with data files.
 \item \verb{bootstrap/library} with R packages compiled for the local
       platform.
 \item \verb{bootstrap/software} with software files, such as R packages in
       \verb{tar.gz} source code format.
 }
+
+Model settings and configuration files can be set up within \verb{DATA.bib},
+see \code{\link{process.bib}}.
 }
 \examples{
 \dontrun{

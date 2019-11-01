@@ -16,7 +16,7 @@
 #' \code{\link{library}} is the underlying base function to load a package.
 #'
 #' \code{\link{taf.bootstrap}} is the procedure to install packages into a local
-#' TAF library, via the \file{SOFTWARE.bib} metadata file.
+#' TAF library, via the \verb{SOFTWARE.bib} metadata file.
 #'
 #' \code{\link{icesTAF-package}} gives an overview of the package.
 #'
@@ -37,10 +37,17 @@
 
 taf.library <- function(package, messages=FALSE, warnings=FALSE)
 {
+  ## If taf.library() is called from bootstrap data script, the working
+  ## directory is root/bootstrap/data/scriptname; change to root temporarily
+  if(basename(dirname(dirname(getwd()))) == "bootstrap")
+  {
+    owd <- setwd("../../.."); on.exit(setwd(owd))
+  }
+
   if(!dir.exists("bootstrap/library"))
     stop("directory 'bootstrap/library' not found")
 
-  installed <- unname(rownames(installed.packages("bootstrap/library")))
+  installed <- dir("bootstrap/library")
   if(missing(package))
     return(installed)
 

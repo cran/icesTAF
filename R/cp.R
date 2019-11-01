@@ -6,6 +6,7 @@
 #' @param from source filenames, e.g. \code{*.csv}.
 #' @param to destination filenames, or directory.
 #' @param move whether to move instead of copy.
+#' @param quiet whether to suppress messages.
 #'
 #' @return \code{TRUE} for success, \code{FALSE} for failure, invisibly.
 #'
@@ -14,9 +15,9 @@
 #' \code{move = TRUE}:
 #' \enumerate{
 #' \item When moving files, the \code{to} argument must either have a filename
-#' extension or be an existing directory.
+#'       extension or be an existing directory.
 #' \item When moving many files to one destination, the \code{to} argument must
-#' be an existing directory.
+#'       be an existing directory.
 #' }
 #' If these conditions do not hold, no files are changed and an error is
 #' returned.
@@ -45,11 +46,17 @@
 #'
 #' @export
 
-cp <- function(from, to, move=FALSE)
+cp <- function(from, to, move=FALSE, quiet=TRUE)
 {
   ## Include both glob matches and filenames without asterisk,
   ## in case some filenames without asterisk are not found
   from <- sort(unique(c(Sys.glob(from), from[!grepl("\\*", from)])))
+
+  if(!quiet)
+  {
+    message(if(move) "Moving files:" else "Copying files:")
+    message("  ", paste(from, to, sep=" -> ", collapse="\n  "))
+  }
 
   if(move)
   {

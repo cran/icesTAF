@@ -2,8 +2,8 @@
 #'
 #' Create an initial draft version of a \file{SOFTWARE.bib} metadata file.
 #'
-#' @param package name of one or more installed R packages, or files/folders
-#'        inside \file{bootstrap/initial/software}.
+#' @param package name of one or more R packages, or files/folders inside
+#'        \verb{bootstrap/initial/software}.
 #' @param author author(s) of the software.
 #' @param year year when this version of the software was released, or the
 #'        publication year of the cited manual/article/etc.
@@ -13,12 +13,18 @@
 #' @param source string to specify where the software are copied/downloaded
 #'        from. This can be a GitHub reference of the form
 #'        \verb{owner/repo[/subdir]@ref}, URL, or a filename.
-#' @param file optional filename to save the draft metadata to a file.
+#' @param file optional filename to save the draft metadata to a file. The value
+#'        \code{TRUE} can be used as shorthand for
+#'        \code{"bootstrap/SOFTWARE.bib"}.
 #' @param append whether to append metadata entries to an existing file.
 #'
 #' @details
 #' Typical usage is to specify \code{package}, while using the default values
 #' for the other arguments.
+#'
+#' If \code{package} is an R package, it can either be a package that is already
+#' installed (\code{"icesAdvice"}) or a GitHub reference
+#' (\code{"ices-tools-prod/icesAdvice@4271797"}).
 #'
 #' With the default \verb{version = NULL}, the function will automatically
 #' suggest an appropriate version entry for CRAN packages, but for GitHub
@@ -34,8 +40,7 @@
 #' instead of writing it to a file. The output can then be pasted into a file to
 #' edit further, without accidentally overwriting an existing metadata file.
 #'
-#' @return
-#' Object of class \verb{Bibtex}.
+#' @return Object of class \verb{Bibtex}.
 #'
 #' @note
 #' After creating the initial draft, the user can complete the \verb{version},
@@ -50,20 +55,24 @@
 #' underlying functions to access information about installed R packages.
 #'
 #' \code{\link{draft.data}} creates an initial draft version of a
-#' \file{DATA.bib} metadata file.
+#' \verb{DATA.bib} metadata file.
 #'
 #' \code{\link{process.bib}} reads and processes metadata entries.
 #'
 #' \code{\link{icesTAF-package}} gives an overview of the package.
 #'
 #' @examples
+#' \donttest{
 #' # Print in console
 #' draft.software("icesTAF")
+#' }
 #'
 #' \dontrun{
 #' # Export to file
-#' draft.software("icesTAF", file="bootstrap/SOFTWARE.bib")
+#' draft.software("icesTAF", file=TRUE)
 #' }
+#'
+#' @importFrom remotes parse_repo_spec
 #'
 #' @export
 
@@ -91,17 +100,34 @@ draft.software <- function(package, author=NULL, year=NULL, title=NULL,
     out <- out[-length(out)] # remove empty line at end
     class(out) <- "Bibtex"
   }
+  ## 1  GitHub repo
+  else if(grepl("@", package))
+  {
+    taf.install(package, "bootstrap")
+    spec <- parse_repo_spec(package)
+    package <- if(spec$subdir=="") spec$repo else spec$subdir
+    ## Pass source=NULL, to get a GitHub reference instead of trunk name
+    out <- ds.package(package=package, author=author, year=year, title=title,
+                      version=version, source=NULL)
+  }
+  ## 2  Bootstrap folder or file
   else if(dirname(package) == "bootstrap/initial/software")
   {
     out <- ds.file(package=package, author=author, year=year, title=title,
                    version=version, source=source)
   }
+  ## 3  Installed package
   else
   {
     out <- ds.package(package=package, author=author, year=year, title=title,
                       version=version, source=source)
   }
 
+  ## Export
+  if(identical(file, TRUE))
+    file <- "bootstrap/SOFTWARE.bib"
+  if(identical(file, FALSE))
+    file <- ""
   ## No write() when file="", to ensure quiet assignment x <- draft.software()
   if(file == "")
   {

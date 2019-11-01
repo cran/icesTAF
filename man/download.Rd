@@ -38,6 +38,17 @@ files. Data files in CSV or other text format can also be read directly into
 memory using \code{read.table}, \code{read.taf} or similar functions, without
 writing to the file system.
 }
+\note{
+If \code{destfile} contains a question mark it is removed from the
+\code{destfile} filename. Similarly, if \code{destfile} contains spaces or
+\file{\%20} sequences, those are converted to underscores.
+
+In general, TAF scripts do not access the internet using
+\code{download} or similar functions. Instead, data and software are declared
+in DATA.bib and SOFTWARE.bib and then downloaded using
+\code{\link{taf.bootstrap}}. The exception is when a bootstrap data script is
+used to fetch data files from a web service (see \code{\link{process.bib}}).
+}
 \examples{
 \dontrun{
 url <- paste0("https://github.com/ices-taf/2015_had-iceg/raw/master/",
@@ -47,7 +58,10 @@ download(url)
 
 }
 \seealso{
-\code{\link{read.taf}} reads a TAF table into a data frame.
+\code{\link{download.file}} is the underlying base function to download
+files.
+
+\code{\link{download.github}} downloads a GitHub repository.
 
 \code{\link{icesTAF-package}} gives an overview of the package.
 }

@@ -23,8 +23,22 @@
 #' memory using \code{read.table}, \code{read.taf} or similar functions, without
 #' writing to the file system.
 #'
+#' @note
+#' If \code{destfile} contains a question mark it is removed from the
+#' \code{destfile} filename. Similarly, if \code{destfile} contains spaces or
+#' \file{\%20} sequences, those are converted to underscores.
+#'
+#' In general, TAF scripts do not access the internet using
+#' \code{download} or similar functions. Instead, data and software are declared
+#' in DATA.bib and SOFTWARE.bib and then downloaded using
+#' \code{\link{taf.bootstrap}}. The exception is when a bootstrap data script is
+#' used to fetch data files from a web service (see \code{\link{process.bib}}).
+#'
 #' @seealso
-#' \code{\link{read.taf}} reads a TAF table into a data frame.
+#' \code{\link{download.file}} is the underlying base function to download
+#' files.
+#'
+#' \code{\link{download.github}} downloads a GitHub repository.
 #'
 #' \code{\link{icesTAF-package}} gives an overview of the package.
 #'
@@ -43,7 +57,9 @@
 download <- function(url, dir=".", mode="wb", chmod=file_ext(url)=="",
                      destfile=file.path(dir,basename(url)), quiet=TRUE, ...)
 {
+  destfile <- gsub("\\?.*", "", destfile)   # file.dat?tail -> file.dat
   download.file(url=url, destfile=destfile, mode=mode, quiet=quiet, ...)
+  convert.spaces(destfile)  # my%20script.R -> my_script.R
   if(chmod)
     Sys.chmod(destfile)
 }

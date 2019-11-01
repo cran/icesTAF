@@ -2,9 +2,21 @@
 #'
 #' Read and process metadata entries in a \verb{*.bib} file.
 #'
-#' @param bibfile metadata file to process, either \code{"DATA.bib"} or
-#'        \code{"SOFTWARE.bib"}.
+#' @param bibfile metadata file to process, either \code{"SOFTWARE.bib"} or
+#'        \code{"DATA.bib"}.
+#' @param clean whether to \code{\link{clean}} directories.
 #' @param quiet whether to suppress messages reporting progress.
+#'
+#' @details
+#' If \code{bibfile = "SOFTWARE.bib"} and \code{clean = TRUE}, then
+#' \file{bootstrap/software} is removed and \file{bootstrap/library} is cleaned
+#' with \code{\link{clean.library}} before processing metadata entries.
+#'
+#' If \code{bibfile = "DATA.bib"} and \code{clean = TRUE}, then the
+#' \file{bootstrap/data} directory is cleaned before processing metadata
+#' entries.
+#'
+#' @return \code{TRUE} for success.
 #'
 #' @note
 #' This is a helper function for \code{\link{taf.bootstrap}}. It is called
@@ -26,22 +38,25 @@
 #'   year       = {2016},
 #'   title      = {Survey indices: UK_BTS, FR_GFS, IN_YFS},
 #'   period     = {1987-2015},
+#'   access     = {Public},
 #'   source     = {file},
 #' }}
 #'
 #' Here, a data file is described using the \verb{@Misc} entry type and the
 #' string following the entry type is called a \dfn{key}. The next fields state
-#' that this file was prepared by the North Sea working group in 2016 and it
-#' contains survey indices from 1987 to 2015. It is not necessary to specify the
-#' stock name, since that will be automatically recorded on the TAF server. The
-#' special value \verb{source = {file}} means that the key, in this case
+#' that this file was prepared by the North Sea working group in 2016, it
+#' contains survey indices from 1987 to 2015, and access to this file is public.
+#' It is not necessary to specify the stock name, since that will be
+#' automatically recorded on the TAF server.
+#'
+#' The special value \verb{source = {file}} means that the key, in this case
 #' \verb{PLE7DFleet_2016.txt}, is the name of the file located inside
 #' \verb{bootstrap/initial/data}. This \verb{file} shorthand notation is
 #' equivalent to specifying the relative path:
 #' \verb{source = {initial/data/PLE7DFleet_2016.txt}}.
 #'
-#' The \dfn{source} field specifies where data or software originate from. There
-#' are four types of values that can be used in the source field:
+#' The \dfn{source} field specifies where data or software originate from. The
+#' following types of values can be used in the source field:
 #'
 #' \enumerate{
 #' \item GitHub reference of the form \verb{owner/repo[/subdir]@ref},
@@ -55,13 +70,25 @@
 #'       a file or directory provided by the user.
 #' \item Special value \code{file}, indicating that the metadata key points to a
 #'       file location.
-#' \item Special value \code{script}, indicating that an R script should be run
-#'       to fetch data files from a web service. The metadata key is used both
-#'       to identify the script \file{bootstrap/\emph{key}.R} and target
-#'       directory \file{bootstrap/data/\emph{key}}.
+#' \item Special value \code{script}, indicating that a bootstrap data script
+#'       should be run to fetch data files from a web service. The metadata key
+#'       is used both to identify the script \file{bootstrap/\emph{key}.R} and
+#'       target directory \file{bootstrap/data/\emph{key}}.
 #' }
 #'
+#' Model settings can be stored in a file or folder inside
+#' \verb{bootstrap/initial/data} and included as a simple \verb{DATA.bib} entry,
+#' for example:
+#'
+#' \preformatted{@Misc{config,
+#'   originator = {HAWG},
+#'   year       = {2019},
+#'   title      = {Model settings},
+#'   source     = {file},
+#' }}
+#'
 #' Another example metadata entry is from a \verb{SOFTWARE.bib} file:
+#'
 #' \preformatted{@Manual{FLAssess,
 #'   author  = {Laurence T Kell},
 #'   year    = {2018},
@@ -87,9 +114,13 @@
 #'   source  = {fishfollower/SAM/stockassessment@25b3591},}
 #'
 #' For development versions like these, the version number itself may not be
-#' important or accurate, but the branch name and commit date may be
+#' important or accurate, but the branch name and commit date can be
 #' informative. The 7-character SHA reference code is a pointer to the exact
 #' version of the package required for the analysis.
+#'
+#' If software entry \emph{A} depends on entry \emph{B}, then \emph{B} should be
+#' listed before \emph{A} in \verb{SOFTWARE.bib}, so they are installed in the
+#' right order.
 #'
 #' As a final metadata example, we look at a software entry that is not an R
 #' package. It is made available as a directory \file{sole} containing the model
@@ -145,11 +176,25 @@
 #'
 #' @export
 
-process.bib <- function(bibfile, quiet=FALSE)
+process.bib <- function(bibfile, clean=TRUE, quiet=FALSE)
 {
+  if(!quiet)
+    message("Processing ", bibfile)
   type <- if(bibfile == "DATA.bib") "data"
           else if(bibfile == "SOFTWARE.bib") "software"
           else stop("bibfile must be 'DATA.bib' or 'SOFTWARE.bib'")
+
+  if(clean && type=="data")
+  {
+    clean("data")
+    if(!quiet)
+      message("  cleaned 'bootstrap/data'")
+  }
+  if(clean && type=="software")
+  {
+    clean.software("software", quiet=quiet)
+    clean.library("library", quiet=quiet)
+  }
 
   entries <- if(file.exists(bibfile)) read.bib(bibfile) else list()
   dups <- anyDuplicated(names(entries))
@@ -180,4 +225,6 @@ process.bib <- function(bibfile, quiet=FALSE)
 
     process.inner(bib, dir, quiet)
   }
+
+  invisible(TRUE)
 }

@@ -5,9 +5,10 @@
 \title{Draft DATA.bib}
 \usage{
 draft.data(originator = NULL, year = format(Sys.time(), "\%Y"),
-  title = NULL, period = NULL, source = "file", file = "",
-  data.dir = "bootstrap/initial/data", data.files = dir(data.dir,
-  recursive = TRUE), append = FALSE)
+  title = NULL, period = NULL, access = "Public", source = NULL,
+  file = "", append = FALSE,
+  data.files = dir("bootstrap/initial/data"),
+  data.scripts = dir("bootstrap", pattern = "\\\\.R$"))
 }
 \arguments{
 \item{originator}{who prepared the data, e.g. a working group acronym.}
@@ -23,17 +24,23 @@ Alternatively, a single number if the data cover only one year. If the
 data do not cover specific years, this metadata field can be
 suppressed using \code{period = FALSE}.}
 
+\item{access}{data access code: \code{"OSPAR"}, \code{"Public"}, or
+\code{"Restricted"}.}
+
 \item{source}{where the data are copied/downloaded from. This can be a URL,
-filename, or the special value \code{"file"}.}
+filename, special value \code{"file"}, or special value
+\code{"script"}.}
 
-\item{file}{optional filename to save the draft metadata to a file.}
-
-\item{data.dir}{directory containing data files.}
-
-\item{data.files}{data filenames. The default is all files inside
-\code{data.dir}.}
+\item{file}{optional filename to save the draft metadata to a file. The value
+\code{TRUE} can be used as shorthand for \code{"bootstrap/DATA.bib"}.}
 
 \item{append}{whether to append metadata entries to an existing file.}
+
+\item{data.files}{data files to consider. The default is all folders and
+files inside \verb{bootstrap/initial/data}.}
+
+\item{data.scripts}{data scripts to consider. The default is all \verb{*.R}
+files in the \verb{bootstrap} folder.}
 }
 \value{
 Object of class \verb{Bibtex}.
@@ -47,20 +54,23 @@ for the other arguments. Most data files have the same originator, which can
 be specified to facilitate completing the entries after creating the initial
 draft.
 
-The special value \verb{source = "file"} is described in the
-\code{\link{process.bib}} help page, along with other metadata information.
+The data access codes come from \url{https://vocab.ices.dk/?ref=1435}.
+
+The special values \verb{source = "file"} and \verb{source = "script"} are
+described in the \code{\link{process.bib}} help page, along with other
+metadata information.
 
 The default value \code{file = ""} prints the initial draft in the console,
 instead of writing it to a file. The output can then be pasted into a file to
 edit further, without accidentally overwriting an existing metadata file.
-
-This function is intended to be called from the top directory of a TAF
-analysis which contains a \file{bootstrap/initial/data} directory, as
-reflected in the default value of \code{data.dir}.
 }
 \note{
+This function is intended to be called from the top directory of a TAF
+analysis. It looks for data files inside \verb{bootstrap/initial/data} folder
+and data scripts inside \verb{bootstrap}.
+
 After creating the initial draft, the user can complete the description of
-each data file inside the \verb{title} field and look into each file to
+each data entry inside the \verb{title} field and look into each file to
 specify the \verb{period} that the data cover.
 }
 \examples{
@@ -69,7 +79,7 @@ specify the \verb{period} that the data cover.
 draft.data("WGEF", 2015)
 
 # Export to file
-draft.data("WGEF", 2015, file="bootstrap/DATA.bib")
+draft.data("WGEF", 2015, file=TRUE)
 }
 
 }
@@ -77,7 +87,7 @@ draft.data("WGEF", 2015, file="bootstrap/DATA.bib")
 \code{\link{period}} pastes two years to form a \code{period} string.
 
 \code{\link{draft.software}} creates an initial draft version of a
-\file{SOFTWARE.bib} metadata file.
+\verb{SOFTWARE.bib} metadata file.
 
 \code{\link{process.bib}} reads and processes metadata entries. The help page
 contains example metadata entries and commentary.
