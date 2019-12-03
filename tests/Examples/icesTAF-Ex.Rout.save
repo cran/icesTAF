@@ -504,6 +504,27 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
+> nameEx("get.remote.sha")
+> ### * get.remote.sha
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get.remote.sha
+> ### Title: Get Remote SHA
+> ### Aliases: get.remote.sha
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D get.remote.sha("ices-tools-prod", "icesTAF", "master")
+> ##D get.remote.sha("ices-tools-prod", "icesTAF", "3.0-0")
+> ##D get.remote.sha("ices-tools-prod", "icesTAF", "3.0-0", seven=FALSE)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
 > nameEx("latin1.to.utf8")
 > ### * latin1.to.utf8
 > 
@@ -681,7 +702,7 @@ Type 'q()' to quit R.
 > ### ** Examples
 > 
 > msg("script.R running...")
-[11:35:36] script.R running...
+[15:22:16] script.R running...
 > 
 > 
 > 
@@ -698,16 +719,6 @@ Type 'q()' to quit R.
 > 
 > ### ** Examples
 > 
-> os()
-[1] "Linux"
-> os.linux()
-[1] TRUE
-> os.macos()
-[1] FALSE
-> os.unix()
-[1] TRUE
-> os.windows()
-[1] FALSE
 > 
 > 
 > 
@@ -1394,7 +1405,7 @@ detaching ‘package:lattice’
 
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.388 0.02 0.408 0 0 
+Time elapsed:  0.376 0.019 0.398 0 0 
 > grDevices::dev.off()
 null device 
           1 

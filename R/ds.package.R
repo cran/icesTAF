@@ -1,6 +1,10 @@
-## ds = draft.software helper function
-
+#' @rdname icesTAF-internal
+#'
 #' @importFrom utils citation packageDescription toBibtex
+#'
+#' @export
+
+## ds = draft.software helper function
 
 ds.package <- function(package, author, year, title, version, source)
 {

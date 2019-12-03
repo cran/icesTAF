@@ -72,8 +72,6 @@
 #' draft.software("icesTAF", file=TRUE)
 #' }
 #'
-#' @importFrom remotes parse_repo_spec
-#'
 #' @export
 
 draft.software <- function(package, author=NULL, year=NULL, title=NULL,
@@ -103,8 +101,9 @@ draft.software <- function(package, author=NULL, year=NULL, title=NULL,
   ## 1  GitHub repo
   else if(grepl("@", package))
   {
-    taf.install(package, "bootstrap")
-    spec <- parse_repo_spec(package)
+    targz <- download.github(package, "bootstrap/software")
+    taf.install(file.path("bootstrap/software", targz))
+    spec <- parse.repo(package)
     package <- if(spec$subdir=="") spec$repo else spec$subdir
     ## Pass source=NULL, to get a GitHub reference instead of trunk name
     out <- ds.package(package=package, author=author, year=year, title=title,

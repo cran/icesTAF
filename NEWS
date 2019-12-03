@@ -1,10 +1,31 @@
 --------------------------------------------------------------------------------
+icesTAF 3.3-0 (2019-12-03)
+--------------------------------------------------------------------------------
+o Added function get.remote.sha() to look up a SHA reference code on GitHub.
+  Fixed a bug introduced in 3.2-0.
+
+o Improved clean.library() and clean.software() to remove bootstrap/library and
+  bootstrap/software when SOFTWARE.bib file does not exist. Improved
+  clean.software() to remove software file when version does not match
+  SOFTWARE.bib.
+
+o Improved download.github() to handle packages that are nested inside a
+  repository. Set default to quiet=FALSE.
+
+o Changed write.taf() so it no longer converts line endings.
+
+o Removed 'remotes' package dependency.
+
+
+
+
+--------------------------------------------------------------------------------
 icesTAF 3.2-0 (2019-11-01)
 --------------------------------------------------------------------------------
-o Added functions clean.library() and clean.software() to selectively clean TAF
-  library and software folders.
+o Added functions clean.library() and clean.software() to selectively clean the
+  TAF library and software folders.
 
-o Added function download.github() to download GitHub repository.
+o Added function download.github() to download a GitHub repository.
 
 o Added function taf.install() to install a package in the local TAF library.
 
@@ -44,7 +65,7 @@ o Improved download() so it shaves off ?tail from the end of 'destfile', and
 
 o Improved zoom() so it handles legend text size.
 
-o Removed jsonlite package dependency.
+o Removed 'jsonlite' package dependency.
 
 
 
@@ -60,9 +81,9 @@ o Added argument 'quiet' to process.bib() and support for source={script} and
   dir={TRUE}. Removed 'bundle' field.
 
 o Added argument 'quiet' to taf.bootstrap(). Improved taf.bootstrap() so it
-  doesn't clean the corresponding bootstrap directories when arguments 'config',
-  'data', or 'software' are FALSE. Dropped support for custom bootstrap.R
-  script, superseded by source={script}.
+  doesn't clean the corresponding bootstrap subdirectories when arguments
+  'config', 'data', or 'software' are FALSE. Dropped support for custom
+  bootstrap.R script, superseded by source={script}.
 
 o Improved draft.data() so it works in R versions older than 3.5. Code
   contributed by Alexandros Kokkalis.
@@ -142,7 +163,7 @@ o Added argument 'clean' to taf.bootstrap().
 o Added argument 'create' to taf.library().
 
 o Improved process.bib() so it does not require taf.bootstrap() to create 'data'
-  and 'software' directories.
+  and 'software' subdirectories.
 
 o Improved taf.skeleton() so every script starts with library(icesTAF) and
   mkdir() to create a working directory.

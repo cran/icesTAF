@@ -1,11 +1,11 @@
 Package: icesTAF
-Version: 3.2-0
-Date: 2019-11-01
+Version: 3.3-0
+Date: 2019-12-03
 Title: Functions to Support the ICES Transparent Assessment Framework
 Authors@R: c(person("Arni", "Magnusson", role=c("aut","cre"), email="arni.magnusson@ices.dk"),
              person("Colin", "Millar", role="aut"),
              person("Alexandros", "Kokkalis", role="ctb"))
-Imports: grDevices, lattice, stats, tools, utils, bibtex, remotes
+Imports: grDevices, lattice, stats, tools, utils, bibtex
 LazyData: yes
 Description: Functions to support the ICES Transparent Assessment Framework
   <http://taf.ices.dk> to organize data, methods, and results used in ICES
@@ -14,12 +14,12 @@ Description: Functions to support the ICES Transparent Assessment Framework
 License: GPL (>= 2)
 URL: http://taf.ices.dk
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 NeedsCompilation: no
-Packaged: 2019-11-01 08:28:12 UTC; arnima
+Packaged: 2019-12-03 13:02:29 UTC; arnima
 Author: Arni Magnusson [aut, cre],
   Colin Millar [aut],
   Alexandros Kokkalis [ctb]
 Maintainer: Arni Magnusson <arni.magnusson@ices.dk>
 Repository: CRAN
-Date/Publication: 2019-11-01 08:40:02 UTC
+Date/Publication: 2019-12-03 13:30:02 UTC

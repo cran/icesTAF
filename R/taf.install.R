@@ -69,7 +69,7 @@ taf.install <- function(targz=NULL, lib="bootstrap/library", quiet=FALSE)
     {
       if(!quiet)
       {
-        message("Skipping install of '", pkg, "'.")
+        message("Skipping install of '", basename(tgz), "'.")
         message("  Version '", sha, "' is already in ", lib, ".")
       }
     }
@@ -88,9 +88,13 @@ taf.install <- function(targz=NULL, lib="bootstrap/library", quiet=FALSE)
   }
 }
 
-## Check whether requested package is already installed in the TAF library
-
+#' @rdname icesTAF-internal
+#'
 #' @importFrom utils packageDescription
+#'
+#' @export
+
+## Check whether requested package is already installed in the TAF library
 
 already.in.taf.library <- function(targz, lib)
 {
@@ -101,24 +105,4 @@ already.in.taf.library <- function(targz, lib)
                 packageDescription(pkg, lib.loc=lib)$RemoteSha else NULL
   sha.inst <- substring(sha.inst, 1, nchar(sha.tar))
   identical(sha.tar, sha.inst)
-}
-
-## Get the SHA code of the remote for a given reference
-
-#' @importFrom utils URLencode download.file
-
-## Internal use examples:
-## icesTAF:::get_remote_sha("ices-tools-prod", "icesTAF", "master")
-## icesTAF:::get_remote_sha("ices-tools-prod", "icesTAF", "3.1-1")
-## icesTAF:::get_remote_sha("ices-tools-prod", "icesTAF",
-
-get_remote_sha <- function(username, repo, ref)
-{
-  ## GitHub API URL to get head commit at a reference
-  url <- paste("https://api.github.com/repos", username, repo, "commits",
-               URLencode(ref, reserved=TRUE), sep="/")
-  ## Read and extract SHA code
-  sha <- readLines(url, n=2)[2]
-  sha <- sub("  \"sha\": \"(.*)\",", "\\1", sha)
-  sha
 }

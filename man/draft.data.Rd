@@ -6,8 +6,7 @@
 \usage{
 draft.data(originator = NULL, year = format(Sys.time(), "\%Y"),
   title = NULL, period = NULL, access = "Public", source = NULL,
-  file = "", append = FALSE,
-  data.files = dir("bootstrap/initial/data"),
+  file = "", append = FALSE, data.files = dir("bootstrap/initial/data"),
   data.scripts = dir("bootstrap", pattern = "\\\\.R$"))
 }
 \arguments{
