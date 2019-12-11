@@ -4,13 +4,11 @@
 #'
 #' @export
 
-## process.bib helper function
+## Helper function for process.bib
 
 process.inner <- function(bib, dir, quiet)
 {
   key <- attr(bib, "key")
-  if(!quiet)
-    message("* ", key)
 
   ## Case 1: R package on GitHub
   if(grepl("@", bib$source[1]))
