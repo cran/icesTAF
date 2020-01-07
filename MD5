@@ -1,6 +1,6 @@
-f82243aa04e6e955bae1a43aec7575c6 *DESCRIPTION
+10600d76a04dd51c8f91b9e575e18105 *DESCRIPTION
 e196260f44d0dbfdfe24107ba94b4b6d *NAMESPACE
-5b811a8dacec0e6b09c2a5d50bef8203 *NEWS
+1c44bac9a888050db26f4bac0a893a86 *NEWS
 3803a4d68c31a261e8a898521355bb4d *R/access.vocab.R
 8c7dbfbc049322c099d4c9a00100752f *R/catage.long.R
 17da392d6955467575909919b6568f90 *R/catage.taf.R
@@ -37,7 +37,7 @@ c48d3bd56430f899b6ef7f5a8fa783f7 *R/os.R
 ce898bca86ff68eb3a95519cbaff0ae9 *R/parse.repo.R
 1be37aca89b8c464c76f4c1e209b2893 *R/period.R
 b23c5ddec6df45133b9df87b8657a754 *R/plus.R
-ec1b92a01030a1534278d55638860c4a *R/process.bib.R
+455895f1b3b1cff146eca3f592afd23f *R/process.bib.R
 1a810ce088038181c49819137d908c1a *R/process.inner.R
 b3bea859d0c0b15f254a597850b33695 *R/read.taf.R
 9e5683d1c8136e32a3a341b032b258f4 *R/rmdir.R
@@ -63,11 +63,11 @@ c69ef43756269536c35d5808b5424384 *R/unix2dos.R
 f59a04bf86e0862a777e41641af89fc4 *R/write.taf.R
 51bd9f58000bd95309d14a6182116358 *R/xtab2taf.R
 ae461c73bac10eb5a5fc82a658e8081c *R/zoom.R
-c32fe4f99b784078031e837c3b28e50b *data/catage.long.rda
-6778409963d7c6e44c175f4bd7e22fd6 *data/catage.taf.rda
-b2f1f1c494b309c347013f0c66be8686 *data/catage.xtab.rda
-db7c2a2851847f7c2119c8e54d419678 *data/summary.taf.rda
-4f5b12e1f49d3c3fd16e5df330519afc *data/taf.colors.rda
+b4400141e1b15f92b7853b4aa8c1476a *data/catage.long.rda
+6959589ca51757b2f910cc8037242c69 *data/catage.taf.rda
+884b63de2a552f5acf22fb3f56c0b269 *data/catage.xtab.rda
+4432c9c4b57a0d4411ca3f3c74ed7f27 *data/summary.taf.rda
+fbdff1422a769c67ff4a8c3e0af7a174 *data/taf.colors.rda
 e5fd2a2f9b938c383898ac99d8b0cfca *man/catage.long.Rd
 4586da896af3ba8f02d50e3d73544e1c *man/catage.taf.Rd
 6d22974b723212e61f30b9e5ea9ef780 *man/catage.xtab.Rd
@@ -100,7 +100,7 @@ e53c70ad08c05bccb8dfd1550d516b13 *man/icesTAF-package.Rd
 0e8625c1ac3b02adfe6e785aeef35104 *man/os.Rd
 54e829be7d3d14a97e1eb5975aab479d *man/period.Rd
 c6f8eee496c002e2cfb3650b69d05309 *man/plus.Rd
-2da21a2d8056a090cd22fa15ed3aece8 *man/process.bib.Rd
+cd1b3b1204fae83a8e3d48428e5d99a0 *man/process.bib.Rd
 3d90a30df63127150c3d7c9f65d56332 *man/read.taf.Rd
 09158920cf309516e7b93b1663414f7d *man/rmdir.Rd
 1ce29a7f0766e4c33d571df1060889e2 *man/rnd.Rd

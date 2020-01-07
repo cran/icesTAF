@@ -101,10 +101,9 @@
 #'
 #' This entry describes a specific version of an R package that is required for
 #' the TAF analysis. It is similar, but not identical, to the output from the R
-#' command \verb{citation("FLAssess")}. The version field specifies the version
-#' number and release date, with a corresponding GitHub reference. When an R
-#' package is not an official release but a development version, the version and
-#' source may look like this,
+#' command \verb{citation("FLAssess")}. The \dfn{version} field specifies the
+#' version number and release date. When an R package is not an official release
+#' but a development version, the version and source may look like this,
 #'
 #' \preformatted{  version = {2.6.3, committed 2018-10-09},
 #'   source  = {flr/FLAssess@f1e5acb},}
@@ -213,11 +212,15 @@ process.bib <- function(bibfile, clean=TRUE, quiet=FALSE)
     bib$source <- sub(",$", "", bib$source)     # remove trailing comma
     bib$source <- bib$source[bib$source != ""]  # remove empty strings
 
-    ## icesTAF:::access.vocab is a string vector of allowed 'access' values
+    ## Check if access matches allowed values
     access <- bib$access
-    if(!is.character(access) || !all(as.character(access) %in% access.vocab))
-      stop("'access' values must be \"",
-           paste(access.vocab, collapse="\", \""), "\"")
+    if(!is.null(access))
+    {
+      ## icesTAF:::access.vocab is a string vector of allowed 'access' values
+      if(!is.character(access) || !(access %in% access.vocab))
+        stop("'access' values must be \"",
+             paste(access.vocab, collapse="\", \""), "\"")
+    }
 
     ## Add prefix
     bib$source <- paste0(bib$prefix, bib$source)
