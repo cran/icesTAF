@@ -5,6 +5,8 @@
 #'
 #' @param folder location of local TAF library.
 #' @param quiet whether to suppress messages about removed packages.
+#' @param force whether to remove the local TAF library, regardless of how it
+#'        compares to SOFTWARE.bib entries.
 #'
 #' @note
 #' For each package, the cleaning procedure selects between three cases:
@@ -39,11 +41,11 @@
 #'
 #' @export
 
-clean.library <- function(folder="bootstrap/library", quiet=FALSE)
+clean.library <- function(folder="bootstrap/library", quiet=FALSE, force=FALSE)
 {
   installed <- dir(folder)
 
-  if(!file.exists(file.path(folder, "../SOFTWARE.bib")))
+  if(!file.exists(file.path(folder, "../SOFTWARE.bib")) || force)
   {
     unlink(folder, recursive=TRUE)
   }
@@ -61,6 +63,7 @@ clean.library <- function(folder="bootstrap/library", quiet=FALSE)
         repo <- bib[pkg]$source
         spec <- parse.repo(repo)
         sha.bib <- get.remote.sha(spec$username, spec$repo, spec$ref)
+        sha.inst <- substring(sha.inst, 1, nchar(sha.bib))  # same length
       }
       else
       {

@@ -5,10 +5,12 @@
 #'
 #' @param folder location of local TAF software folder.
 #' @param quiet whether to suppress messages about removed software.
+#' @param force whether to remove the local TAF software folder, regardless of
+#'        how it compares to SOFTWARE.bib entries.
 #'
 #' @note
-#' For each file in the software folder, the cleaning procedure selects between
-#' three cases:
+#' For each file (and subdirectory) in the software folder, the cleaning
+#' procedure selects between three cases:
 #' \enumerate{
 #' \item File and version matches \verb{SOFTWARE.bib} - do nothing.
 #' \item Filename does not contain the version listed in \verb{SOFTWARE.bib} -
@@ -39,11 +41,12 @@
 #'
 #' @export
 
-clean.software <- function(folder="bootstrap/software", quiet=FALSE)
+clean.software <- function(folder="bootstrap/software", quiet=FALSE,
+                           force=FALSE)
 {
   software.files <- dir(folder, full.names=TRUE)
 
-  if(!file.exists(file.path(folder, "../SOFTWARE.bib")))
+  if(!file.exists(file.path(folder, "../SOFTWARE.bib")) || force)
   {
     unlink(folder, recursive=TRUE)
   }
@@ -54,8 +57,8 @@ clean.software <- function(folder="bootstrap/software", quiet=FALSE)
     for(file in software.files)
     {
       ## Read sha.file, the SHA for a software file
-      pkg <- sub(".*/(.*)_.*", "\\1", file)          # path/pkg_sha.tar.gz -> pkg
-      sha.file <- sub(".*_(.*?)\\..*", "\\1", file)  # path/pkg_sha.tar.gz -> sha
+      pkg <- sub(".*/(.*)_.*", "\\1", file)         # path/pkg_sha.tar.gz -> pkg
+      sha.file <- sub(".*_(.*?)\\..*", "\\1", file) # path/pkg_sha.tar.gz -> sha
       ## Read sha.bib, the corresponding SHA from SOFTWARE.bib
       if(pkg %in% names(bib))
       {
@@ -71,7 +74,7 @@ clean.software <- function(folder="bootstrap/software", quiet=FALSE)
       ## If software file is either a mismatch or not listed, then remove it
       if(sha.file != sha.bib)
       {
-        file.remove(file)
+        unlink(file, recursive=TRUE, force=TRUE)
         if(!quiet)
           message("  cleaned ", file)
       }

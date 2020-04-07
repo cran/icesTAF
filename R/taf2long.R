@@ -13,8 +13,8 @@
 #' producing plots.
 #'
 #' @seealso
-#' \code{\link{catage.long}} and \code{\link{catage.taf}} describe the long and
-#' TAF formats.
+#' \code{\link{catage.taf}} and \code{\link{catage.long}} describe the TAF and
+#' long formats.
 #'
 #' \code{\link{long2taf}} converts a long table to TAF format.
 #'
@@ -23,6 +23,8 @@
 #' @examples
 #' taf2long(catage.taf, names=c("Year","Age","Catch"))
 #'
+#' @importFrom utils type.convert
+#'
 #' @export
 
 taf2long <- function(x, names=c("Year","Age","Value"))
@@ -30,8 +32,8 @@ taf2long <- function(x, names=c("Year","Age","Value"))
   row.names(x) <- x[[1]]
   x <- x[-1]
   y <- as.data.frame(as.table(as.matrix(x)))
-  y[[1]] <- simplify(y[[1]])
-  y[[2]] <- simplify(y[[2]])
+  y[[1]] <- type.convert(as.character(y[[1]]), as.is=TRUE)
+  y[[2]] <- type.convert(as.character(y[[2]]), as.is=TRUE)
   names(y) <- names
   y
 }

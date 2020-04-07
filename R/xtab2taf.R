@@ -13,8 +13,8 @@
 #' and producing plots.
 #'
 #' @seealso
-#' \code{\link{catage.taf}} and \code{\link{catage.xtab}} describe the TAF and
-#' crosstab formats.
+#' \code{\link{catage.xtab}} and \code{\link{catage.taf}} describe the crosstab
+#' and TAF formats.
 #'
 #' \code{\link{taf2xtab}} converts a TAF table to crosstab format.
 #'
@@ -23,13 +23,16 @@
 #' @examples
 #' xtab2taf(catage.xtab)
 #'
+#' @importFrom utils type.convert
+#'
 #' @export
 
 xtab2taf <- function(x, colname="Year")
 {
   if(is.table(x))
     x <- unclass(x)  # handle xtabs() output
-  y <- data.frame(simplify(row.names(x)), x, check.names=FALSE)
+  y <- data.frame(type.convert(as.character(row.names(x)),as.is=TRUE), x,
+                  check.names=FALSE)
   names(y)[1] <- colname
   row.names(y) <- NULL
   y

@@ -30,9 +30,8 @@
 #' The bootstrap procedure consists of the following steps:
 #' \enumerate{
 #' \item If a \verb{bootstrap/SOFTWARE.bib} metadata file exists, it is
-#'       processed with \code{\link{process.bib}}.
-#' \item If a \verb{bootstrap/DATA.bib} metadata file exists, it is processed
-#'       with \code{\link{process.bib}}.
+#'       processed.
+#' \item If a \verb{bootstrap/DATA.bib} metadata file exists, it is processed.
 #' }
 #'
 #' After the bootstrap procedure, software and data have been documented and
@@ -50,7 +49,9 @@
 #' see \href{https://github.com/ices-taf/doc/wiki/Bib-entries}{TAF Wiki}.
 #'
 #' @seealso
-#' \code{\link{process.bib}} is a helper function used to process metadata.
+#' \code{\link{draft.data}} and \code{\link{draft.software}} can be used to
+#' create initial draft versions of \file{DATA.bib} and \file{SOFTWARE.bib}
+#' metadata files.
 #'
 #' \code{\link{taf.library}} loads a package from \verb{bootstrap/library}.
 #'
@@ -92,13 +93,14 @@ taf.bootstrap <- function(software=TRUE, data=TRUE, clean=TRUE, quiet=FALSE,
   ## 1  Process software
   if(software && file.exists("SOFTWARE.bib"))
   {
-    out["SOFTWARE.bib"] <- process.bib("SOFTWARE.bib", clean=clean, quiet=quiet)
+    out["SOFTWARE.bib"] <- process.bibfile("SOFTWARE.bib",
+                                           clean=clean, quiet=quiet)
   }
 
   ## 2  Process data
   if(data && file.exists("DATA.bib"))
   {
-    out["DATA.bib"] <- process.bib("DATA.bib", clean=clean, quiet=quiet)
+    out["DATA.bib"] <- process.bibfile("DATA.bib", clean=clean, quiet=quiet)
   }
 
   ## Remove empty folders

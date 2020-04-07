@@ -45,16 +45,18 @@
 #' }
 #' \emph{Tables:}
 #' \tabular{ll}{
-#'   \code{\link{div}}      \tab divide column values\cr
-#'   \code{\link{flr2taf}}  \tab convert FLR to TAF\cr
-#'   \code{\link{long2taf}} \tab convert long format to TAF\cr
-#'   \code{\link{plus}}     \tab rename plus group column\cr
-#'   \code{\link{rnd}}      \tab round column values\cr
-#'   \code{\link{sam2taf}}  \tab convert SAM to TAF\cr
-#'   \code{\link{taf2long}} \tab convert TAF to long format\cr
-#'   \code{\link{taf2xtab}} \tab convert TAF to crosstab\cr
-#'   \code{\link{tt}}       \tab transpose TAF table\cr
-#'   \code{\link{xtab2taf}} \tab convert crosstab to TAF
+#'   \code{\link{div}}       \tab divide column values\cr
+#'   \code{\link{flr2taf}}   \tab convert FLR to TAF\cr
+#'   \code{\link{long2taf}}  \tab convert long format to TAF\cr
+#'   \code{\link{long2xtab}} \tab convert long format to crosstab\cr
+#'   \code{\link{plus}}      \tab rename plus group column\cr
+#'   \code{\link{rnd}}       \tab round column values\cr
+#'   \code{\link{sam2taf}}   \tab convert SAM to TAF\cr
+#'   \code{\link{taf2long}}  \tab convert TAF to long format\cr
+#'   \code{\link{taf2xtab}}  \tab convert TAF to crosstab\cr
+#'   \code{\link{tt}}        \tab transpose TAF table\cr
+#'   \code{\link{xtab2long}} \tab convert crosstab to long format\cr
+#'   \code{\link{xtab2taf}}  \tab convert crosstab to TAF
 #' }
 #' \emph{Plots:}
 #' \tabular{ll}{
@@ -80,11 +82,13 @@
 #'   \code{\link{download.github}} \tab download repository\cr
 #'   \code{\link{file.encoding}}   \tab examine file encoding\cr
 #'   \code{\link{get.remote.sha}}  \tab look up SHA code\cr
+#'   \code{\link{is.r.package}}    \tab check if file is an R package\cr
 #'   \code{\link{latin1.to.utf8}}  \tab convert file encoding\cr
 #'   \code{\link{line.endings}}    \tab examine line endings\cr
-#'   \code{\link{process.bib}}     \tab read and process metadata\cr
 #'   \code{\link{rmdir}}           \tab remove empty directory\cr
 #'   \code{\link{taf.install}}     \tab install package in TAF library\cr
+#'   \code{\link{taf.libPaths}}    \tab add TAF library to search path\cr
+#'   \code{\link{taf.session}}     \tab show session information\cr
 #'   \code{\link{unix2dos}}        \tab convert line endings\cr
 #'   \code{\link{utf8.to.latin1}}  \tab convert file encoding
 #' }
