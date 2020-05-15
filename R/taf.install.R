@@ -29,6 +29,8 @@
 #' \code{\link{taf.bootstrap}} calls \code{\link{download.github}} and
 #' \code{taf.install} to download and install R packages.
 #'
+#' \code{\link{taf.library}} loads a package from \verb{bootstrap/library}.
+#'
 #' \code{\link{clean.library}} selectively removes packages from the local TAF
 #' library.
 #'
@@ -64,17 +66,13 @@ taf.install <- function(targz=NULL, lib="bootstrap/library", quiet=FALSE)
     pkg <- sub(".*/(.*)_.*", "\\1", tgz)     # path/pkg_sha.tar.gz -> pkg
     sha <- sub(".*_(.*?)\\..*", "\\1", tgz)  # path/pkg_sha.tar.gz -> sha
 
-    if(already.in.taf.library(tgz, lib))
-    {
-      if(!quiet)
-      {
-        message("Skipping install of '", basename(tgz), "'.")
-        message("  Version '", sha, "' is already in ", lib, ".")
-      }
-    }
-    else
+    if(!already.in.taf.library(tgz, lib))
     {
       install.packages(tgz, lib=lib, repos=NULL, quiet=quiet)
+    }
+    else if(!quiet)
+    {
+      message("  Skipping install of '", basename(tgz), "' (already in place).")
     }
   }
 }

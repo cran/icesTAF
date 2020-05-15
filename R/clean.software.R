@@ -6,7 +6,7 @@
 #' @param folder location of local TAF software folder.
 #' @param quiet whether to suppress messages about removed software.
 #' @param force whether to remove the local TAF software folder, regardless of
-#'        how it compares to SOFTWARE.bib entries.
+#'        how it compares to \verb{SOFTWARE.bib} entries.
 #'
 #' @note
 #' For each file (and subdirectory) in the software folder, the cleaning
@@ -24,9 +24,6 @@
 #' and removing different versions of software without modifying the
 #' \verb{SOFTWARE.bib} file.
 #'
-#' The command \code{clean("bootstrap/software")} removes that directory
-#' completely.
-#'
 #' @seealso
 #' \code{\link{taf.bootstrap}} calls \code{clean.software} as part of the
 #' default bootstrap procedure.
@@ -35,7 +32,14 @@
 #'
 #' \code{\link{clean.library}} cleans the local TAF library.
 #'
+#' \code{\link{clean.data}} cleans the \verb{bootstrap/data} folder.
+#'
 #' \code{\link{icesTAF-package}} gives an overview of the package.
+#'
+#' @examples
+#' \dontrun{
+#' clean.software()
+#' }
 #'
 #' @importFrom bibtex read.bib
 #'
@@ -44,8 +48,6 @@
 clean.software <- function(folder="bootstrap/software", quiet=FALSE,
                            force=FALSE)
 {
-  software.files <- dir(folder, full.names=TRUE)
-
   if(!file.exists(file.path(folder, "../SOFTWARE.bib")) || force)
   {
     unlink(folder, recursive=TRUE)
@@ -53,26 +55,33 @@ clean.software <- function(folder="bootstrap/software", quiet=FALSE,
   else
   {
     bib <- read.bib(file.path(folder, "../SOFTWARE.bib"))
-
-    for(file in software.files)
+    for(file in dir(folder, full.names=TRUE))
     {
-      ## Read sha.file, the SHA for a software file
-      pkg <- sub(".*/(.*)_.*", "\\1", file)         # path/pkg_sha.tar.gz -> pkg
-      sha.file <- sub(".*_(.*?)\\..*", "\\1", file) # path/pkg_sha.tar.gz -> sha
-      ## Read sha.bib, the corresponding SHA from SOFTWARE.bib
-      if(pkg %in% names(bib))
+      ## Check if filename looks like GitHub software, e.g. model_13579bd.tar.gz
+      if(grepl("_[a-f0-9]{7}\\.tar\\.gz", substring(file, nchar(file)-14)))
       {
-        repo <- bib[pkg]$source
-        spec <- parse.repo(repo)
-        sha.bib <- get.remote.sha(spec$username, spec$repo, spec$ref)
+        ## Read sha.file, the SHA for a software file
+        pkg <- sub(".*/(.*)_.*", "\\1", file)         # bs/pkg_sha.tar.gz -> pkg
+        sha.file <- sub(".*_(.*?)\\..*", "\\1", file) # bs/pkg_sha.tar.gz -> sha
+        ## Read sha.bib, the corresponding SHA from SOFTWARE.bib
+        if(pkg %in% names(bib))
+        {
+          repo <- bib[pkg]$source
+          spec <- parse.repo(repo)
+          sha.bib <- get.remote.sha(spec$username, spec$repo, spec$ref)
+        }
+        else
+        {
+          sha.bib <- "Not listed"
+        }
+        ## If software file is either a mismatch or not listed, then remove it
+        delete <- sha.file != sha.bib
       }
-      else
+      else  # filename is either a folder or plain file, e.g. model or model.exe
       {
-        sha.bib <- "Not listed"
+        delete <- !(basename(file) %in% names(bib))
       }
-
-      ## If software file is either a mismatch or not listed, then remove it
-      if(sha.file != sha.bib)
+      if(delete)
       {
         unlink(file, recursive=TRUE, force=TRUE)
         if(!quiet)
@@ -80,6 +89,5 @@ clean.software <- function(folder="bootstrap/software", quiet=FALSE,
       }
     }
   }
-
   rmdir(folder)
 }

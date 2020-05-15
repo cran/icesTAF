@@ -5,7 +5,7 @@
 \title{Bootstrap TAF Analysis}
 \usage{
 taf.bootstrap(software = TRUE, data = TRUE, clean = TRUE,
-  quiet = FALSE, force = FALSE)
+  force = FALSE, taf = NULL, quiet = FALSE)
 }
 \arguments{
 \item{software}{whether to process \verb{SOFTWARE.bib}.}
@@ -15,11 +15,15 @@ taf.bootstrap(software = TRUE, data = TRUE, clean = TRUE,
 \item{clean}{whether to \code{\link{clean}} directories during the bootstrap
 procedure.}
 
-\item{quiet}{whether to suppress messages reporting progress.}
-
 \item{force}{whether to remove existing \verb{bootstrap/data},
 \verb{bootstrap/library}, and \verb{bootstrap/software} directories
 before the bootstrap procedure.}
+
+\item{taf}{a convenience flag where \code{taf = TRUE} sets \code{software},
+\code{data}, \code{clean}, and \code{force} to \code{TRUE}, as is done
+on the TAF server. Any other value of \code{taf} is ignored.}
+
+\item{quiet}{whether to suppress messages reporting progress.}
 }
 \value{
 Logical vector indicating which metadata files were processed.
@@ -31,10 +35,18 @@ software and data files required for the analysis.
 \details{
 If \code{clean = TRUE} then:
 \enumerate{
-\item \code{clean.software()} and \code{clean.library()} are run if
+\item \code{\link{clean.software}} and \code{\link{clean.library}} are run if
       \file{SOFTWARE.bib} is processed.
-\item \file{bootstrap/data} is removed if \file{DATA.bib} is processed.
+\item \code{\link{clean.data}} is run if \file{DATA.bib} is processed.
 }
+
+The default behavior of \code{taf.bootstrap} is to skip downloading of remote
+files (GitHub resources, URLs, bootstrap scripts) and also skip installing R
+packages from GitHub if the files seem to be already in place. This is done
+to speed up the bootstrap procedure as much as possible. To override this and
+guarantee that all data and software files are updated, pass \code{force =
+TRUE} to download and install everything declared in \verb{SOFTWARE.bib} and
+\verb{DATA.bib}.
 }
 \note{
 This function should be called from the top directory of a TAF analysis. It

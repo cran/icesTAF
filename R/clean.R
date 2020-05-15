@@ -26,6 +26,8 @@
 #' \code{\link{clean.library}} selectively removes packages from
 #' \verb{bootstrap/library}.
 #'
+#' \code{\link{clean.data}} selectively removes data from \verb{bootstrap/data}.
+#'
 #' \code{\link{mkdir}} and \code{\link{rmdir}} create and remove empty
 #' directories.
 #'
@@ -46,9 +48,10 @@ clean <- function(dirs=c("data", "model", "output", "report"), force=FALSE)
   if("bootstrap" %in% dirs)
   {
     ## An odd directory called 'library:' can appear in Linux
-    unlink(c("bootstrap/data", "bootstrap/library:"), recursive=TRUE)
+    unlink("bootstrap/library:", recursive=TRUE)
     clean.software("bootstrap/software", force=force)
     clean.library("bootstrap/library", force=force)
+    clean.data("bootstrap/data", force=force)
     dirs <- dirs[dirs != "bootstrap"]
   }
 
