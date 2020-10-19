@@ -41,8 +41,6 @@
 #' clean.software()
 #' }
 #'
-#' @importFrom bibtex read.bib
-#'
 #' @export
 
 clean.software <- function(folder="bootstrap/software", quiet=FALSE,
@@ -66,7 +64,7 @@ clean.software <- function(folder="bootstrap/software", quiet=FALSE,
         ## Read sha.bib, the corresponding SHA from SOFTWARE.bib
         if(pkg %in% names(bib))
         {
-          repo <- bib[pkg]$source
+          repo <- bib[[pkg]]$source
           spec <- parse.repo(repo)
           sha.bib <- get.remote.sha(spec$username, spec$repo, spec$ref)
         }
