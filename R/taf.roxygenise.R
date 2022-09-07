@@ -11,6 +11,25 @@
 #'
 #' @return NULL
 #'
+#' @examples
+#' \dontrun{
+#'
+#' # Create bootstrap folder
+#' mkdir("bootstrap")
+#'
+#' # Create bootstrap script, bootstrap/mydata.R
+#' draft.data.script(name="mydata", title="Title", description="Description",
+#'                   format="txt", originator="Me", year="2022",
+#'                   period=c(2000,2020), access="Public",
+#'                   content='write(pi, file="pi.txt")')
+#'
+#' # Create metadata, bootstrap/DATA.bib
+#' taf.roxygenise(files="mydata.R")
+#'
+#' # Run bootstrap script, creating bootstrap/data/mydata/pi.txt
+#' taf.bootstrap()
+#' }
+#'
 #' @export
 #' @importFrom purrr flatten
 
@@ -161,14 +180,3 @@ list2bibtex <- function(entry) {
   out
 }
 
-## taken from jeroen/jsonlite:
-## https://github.com/jeroen/jsonlite/blob/a10888a53dbbebaa46e4e6733f4ff1600a3abff2/R/loadpkg.R#L1-L6
-
-loadpkg <- function(pkg) {
-  tryCatch(getNamespace(pkg), error = function(e) {
-    stop(
-      "Required package ", pkg, " not found. Please run: install.packages('", pkg, "')",
-      call. = FALSE
-    )
-  })
-}
