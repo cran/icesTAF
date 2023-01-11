@@ -1,11 +1,10 @@
 Package: icesTAF
-Version: 4.0.0
-Date: 2022-09-07
+Version: 4.0.2
 Title: Functions to Support the ICES Transparent Assessment Framework
 Authors@R: 
   c(
-    person("Arni", "Magnusson", role = "aut"),
     person("Colin", "Millar", role = c("aut", "cre"), email="colin.millar@ices.dk"),
+    person("Arni", "Magnusson", role = "aut"),
     person("Alexandros", "Kokkalis", role = "ctb"),
     person("Iago", "Mosqueira", role = "ctb"),
     person("Ibrahim", "Umar", role = "ctb"),
@@ -21,15 +20,15 @@ Description: Functions to support the ICES Transparent Assessment Framework
 License: GPL-3
 URL: https://taf.ices.dk
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2022-09-07 17:44:36 UTC; colin
-Author: Arni Magnusson [aut],
-  Colin Millar [aut, cre],
+Packaged: 2023-01-11 11:11:34 UTC; colin
+Author: Colin Millar [aut, cre],
+  Arni Magnusson [aut],
   Alexandros Kokkalis [ctb],
   Iago Mosqueira [ctb],
   Ibrahim Umar [ctb],
   Hjalte Parner [ctb]
 Maintainer: Colin Millar <colin.millar@ices.dk>
 Repository: CRAN
-Date/Publication: 2022-09-07 18:00:02 UTC
+Date/Publication: 2023-01-11 11:30:06 UTC
