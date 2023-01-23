@@ -1,5 +1,5 @@
 Package: icesTAF
-Version: 4.0.2
+Version: 4.1.0
 Title: Functions to Support the ICES Transparent Assessment Framework
 Authors@R: 
   c(
@@ -10,19 +10,19 @@ Authors@R:
     person("Ibrahim", "Umar", role = "ctb"),
     person("Hjalte", "Parner", role = "ctb")
   )
-Depends: TAF
-Imports: purrr, roxygen2
+Imports: purrr, roxygen2, TAF (>= 4.1.0), data.tree
 Suggests: git2r
+LazyData: yes
 Description: Functions to support the ICES Transparent Assessment Framework
   <https://taf.ices.dk> to organize data, methods, and results used in ICES
   assessments. ICES is an organization facilitating international collaboration
   in marine science.
 License: GPL-3
-URL: https://taf.ices.dk
+URL: https://taf.ices.dk, https://github.com/ices-tools-prod/icesTAF
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2023-01-11 11:11:34 UTC; colin
+Packaged: 2023-01-23 10:56:09 UTC; colin
 Author: Colin Millar [aut, cre],
   Arni Magnusson [aut],
   Alexandros Kokkalis [ctb],
@@ -31,4 +31,4 @@ Author: Colin Millar [aut, cre],
   Hjalte Parner [ctb]
 Maintainer: Colin Millar <colin.millar@ices.dk>
 Repository: CRAN
-Date/Publication: 2023-01-11 11:30:06 UTC
+Date/Publication: 2023-01-23 19:40:05 UTC
