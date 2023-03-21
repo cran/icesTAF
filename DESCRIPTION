@@ -1,5 +1,5 @@
 Package: icesTAF
-Version: 4.1.0
+Version: 4.2.0
 Title: Functions to Support the ICES Transparent Assessment Framework
 Authors@R: 
   c(
@@ -10,7 +10,7 @@ Authors@R:
     person("Ibrahim", "Umar", role = "ctb"),
     person("Hjalte", "Parner", role = "ctb")
   )
-Imports: purrr, roxygen2, TAF (>= 4.1.0), data.tree
+Imports: purrr, roxygen2, TAF (>= 4.2.0), data.tree
 Suggests: git2r
 LazyData: yes
 Description: Functions to support the ICES Transparent Assessment Framework
@@ -22,7 +22,7 @@ URL: https://taf.ices.dk, https://github.com/ices-tools-prod/icesTAF
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2023-01-23 10:56:09 UTC; colin
+Packaged: 2023-03-21 13:40:20 UTC; colin
 Author: Colin Millar [aut, cre],
   Arni Magnusson [aut],
   Alexandros Kokkalis [ctb],
@@ -31,4 +31,4 @@ Author: Colin Millar [aut, cre],
   Hjalte Parner [ctb]
 Maintainer: Colin Millar <colin.millar@ices.dk>
 Repository: CRAN
-Date/Publication: 2023-01-23 19:40:05 UTC
+Date/Publication: 2023-03-21 14:00:02 UTC
